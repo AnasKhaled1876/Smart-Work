@@ -17,3 +17,10 @@ const List<String> aboutIcons = [
   "assets/icons/about/Vector-1.svg",
   "assets/icons/about/info.svg",
 ];
+
+const List<String> bottomBarIcons = [
+  "assets/icons/app/home-alt.svg",
+  "assets/icons/app/calendar-dates.svg",
+  "assets/icons/app/notes.svg",
+  "assets/icons/app/check-r.svg",
+];

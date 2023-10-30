@@ -17,3 +17,10 @@ const List<String> aboutLabels = [
   "Rate Us",
   "Help",
 ];
+
+const List<String> bottomBarLabels = [
+  "Home",
+  "Calendar",
+  "Notes",
+  "Tasks",
+];

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:smart_work/config/main_theme.dart';
 import 'package:smart_work/presentation/assets/color_manager.dart';
-import 'package:smart_work/presentation/screens/add_info.dart';
+import 'package:smart_work/presentation/screens/sign_up.dart';
 import 'package:smart_work/utils/constants/images.dart';
 import 'package:smart_work/utils/constants/labels.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -33,6 +33,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
             left: width * 40,
             right: width * 40,
             bottom: height * 32,
+            top: height * 40,
           ),
           child: Column(
             children: [
