@@ -1,3 +1,5 @@
+import 'package:flutter/widgets.dart';
+
 double height = 0;
 
 double width = 0;
@@ -7,8 +9,17 @@ double textSize = 0;
 const List<String> appLabels = [
   "Home",
   "Calendar",
-  "Tasks",
   "Notes",
+  "Tasks",
+];
+
+const List<String> categoriesLabels = [
+  "Personal",
+  "Life",
+  "Education",
+  "Work",
+  "Sports",
+  "Cooking",
 ];
 
 const List<String> aboutLabels = [
@@ -24,3 +35,46 @@ const List<String> bottomBarLabels = [
   "Notes",
   "Tasks",
 ];
+
+Map<int, String> titleMap = {
+  1: "Calendar",
+  3: "Notes",
+  4: "Tasks",
+};
+
+class WelcomeRow extends StatelessWidget {
+  const WelcomeRow({
+    super.key,
+    required this.name,
+  });
+  final String name;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Welcome',
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            color: const Color(0xFFCCCCCC),
+            fontSize: textSize * 10,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        SizedBox(height: height * 2),
+        Text(
+          'Mr. $name',
+          style: TextStyle(
+            color: const Color(0xFF242041),
+            fontSize: textSize * 16,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+      ],
+    );
+  }
+}

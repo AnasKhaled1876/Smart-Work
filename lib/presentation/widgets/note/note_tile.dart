@@ -1,13 +1,21 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:smart_work/presentation/assets/color_manager.dart';
-import 'package:smart_work/presentation/widgets/linear_progress_bar.dart';
-import 'package:smart_work/utils/constants/labels.dart';
+import 'package:intl/intl.dart';
 
-class HomeItemTile extends StatelessWidget {
-  const HomeItemTile({
+import '../../../domain/models/note.dart';
+import '../../../utils/constants/images.dart';
+import '../../../utils/constants/labels.dart';
+import '../../assets/color_manager.dart';
+import '../linear_progress_bar.dart';
+
+class NoteTile extends StatelessWidget {
+  const NoteTile({
     super.key,
+    required this.note,
   });
+  final Note note;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +38,10 @@ class HomeItemTile extends StatelessWidget {
               ),
             ),
             child: SvgPicture.asset(
-              "assets/icons/types/education.svg",
+              categoriesIcons[
+                  note.categoryId ?? Random().nextInt(categoriesIcons.length)],
+              width: width * 24,
+              height: height * 24,
             ),
           ),
           SizedBox(
@@ -51,7 +62,8 @@ class HomeItemTile extends StatelessWidget {
                     width: width * 8,
                   ),
                   Text(
-                    '02:00 PM',
+                    DateFormat("hh:mm a")
+                        .format(note.finishTime ?? DateTime.now()),
                     style: TextStyle(
                       color: const Color(0x5E242041),
                       fontSize: textSize * 10,
@@ -65,7 +77,7 @@ class HomeItemTile extends StatelessWidget {
                 height: height * 10,
               ),
               Text(
-                'Studying Math',
+                note.description ?? "No title",
                 style: TextStyle(
                   color: const Color(0xFF242041),
                   fontSize: textSize * 14,

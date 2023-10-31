@@ -24,6 +24,7 @@ class MainBanner extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
+          //TODO: refresh time every minute
           Column(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.start,
@@ -62,6 +63,7 @@ class MainBanner extends StatelessWidget {
             ],
           ),
           const Spacer(),
+          //TODO: Fix Clock Image to real clock with cogs
           Image.asset(
             "assets/images/clock.png",
             height: height * 82,

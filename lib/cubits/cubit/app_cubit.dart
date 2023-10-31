@@ -1,9 +1,15 @@
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:meta/meta.dart';
 import 'package:smart_work/injection.dart';
 
+import '../../domain/models/note.dart';
 import '../../domain/models/task.dart';
 import '../../domain/models/user_profile.dart';
 
@@ -15,10 +21,21 @@ class AppCubit extends Cubit<AppState> {
   static AppCubit get(context) => BlocProvider.of(context);
 
   int currentIndex = 0;
+  int selectedNoteCategory = 0;
+  TabController? tabController;
   UserProfile? userProfile;
+  AdvancedDrawerController advancedDrawerController =
+      AdvancedDrawerController();
 
   void changeIndex(int index) {
+    emit(AppChangingState());
     currentIndex = index;
+    emit(AppChangeBottomNavBarState());
+  }
+
+  void pickNoteCategory(int index) {
+    emit(AppChangingState());
+    selectedNoteCategory = index;
     emit(AppChangeBottomNavBarState());
   }
 
@@ -30,7 +47,10 @@ class AppCubit extends Cubit<AppState> {
       data: user.toJson(),
     )
         .then((value) {
-      userProfile = UserProfile.fromJson(value.data);
+      locator<FlutterSecureStorage>().write(key: "email", value: user.email);
+      locator<FlutterSecureStorage>()
+          .write(key: "password", value: user.password);
+      userProfile = UserProfile.fromMap(value.data["user"]);
       emit(RegisterUserSuccessState());
     }).catchError((error) {
       emit(RegisterUserErrorState(error.toString()));
@@ -39,11 +59,11 @@ class AppCubit extends Cubit<AppState> {
 
   void loginUser({required String email, required String password}) {
     emit(LoginLoadingState());
-    locator<Dio>().post('/user/login', queryParameters: {
+    locator<Dio>().get('/user/login', queryParameters: {
       'email': email,
       'password': password,
     }).then((value) {
-      userProfile = UserProfile.fromJson(value.data);
+      userProfile = UserProfile.fromMap(value.data["user"]);
       emit(LoginSuccessState());
     }).catchError((error) {
       emit(LoginErrorState(error.toString()));
@@ -56,7 +76,7 @@ class AppCubit extends Cubit<AppState> {
       'title': title,
       'description': description,
     }).then((value) {
-      userProfile = UserProfile.fromJson(value.data);
+      userProfile!.tasks!.add(Task.fromJson(value.data["task"]));
       emit(AddTaskSuccessState());
     }).catchError((error) {
       emit(AddTaskErrorState(error.toString()));
@@ -76,14 +96,18 @@ class AppCubit extends Cubit<AppState> {
     );
   }
 
-  void addNote({required String title, required String description}) {
+  void addNote({required Note note}) {
     emit(AddNoteLoadingState());
-    locator<Dio>().post('/note/add', data: {
-      'title': title,
-      'description': description,
+    locator<Dio>().post('/note/addNote', data: {
+      ...note.toMap(),
+      "userId": userProfile!.id!,
     }).then((value) {
+      log(value.toString());
+
+      userProfile!.notes!.add(Note.fromMap(value.data));
       emit(AddNoteSuccessState());
     }).catchError((error) {
+      log(error.toString());
       emit(AddNoteErrorState(error.toString()));
     });
   }

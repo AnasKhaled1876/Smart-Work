@@ -1,8 +1,9 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_work/cubits/cubit/app_cubit.dart';
+import 'package:smart_work/injection.dart';
 import 'package:smart_work/presentation/assets/color_manager.dart';
 import 'package:smart_work/presentation/screens/sign_up.dart';
-import 'package:smart_work/presentation/screens/home_screen.dart';
+import 'package:smart_work/presentation/screens/home.dart';
 import 'package:smart_work/presentation/screens/on_boarding.dart';
 import 'package:smart_work/presentation/screens/splash.dart';
 import 'package:smart_work/config/main_theme.dart';
@@ -10,7 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'utils/constants/labels.dart';
 
-void main() {
+void main() async {
+  await initializeDependencies();
   runApp(const MyApp());
 }
 
@@ -33,7 +35,11 @@ class _MyAppState extends State<MyApp> {
 
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle.light.copyWith(
-        statusBarColor: tertiaryColor,
+        statusBarColor: primaryColor,
+        statusBarIconBrightness: Brightness.dark,
+        statusBarBrightness: Brightness.dark,
+        systemNavigationBarColor: primaryColor,
+        systemNavigationBarIconBrightness: Brightness.light,
       ),
     );
     return BlocProvider(

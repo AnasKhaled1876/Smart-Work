@@ -4,8 +4,13 @@ import 'package:smart_work/utils/constants/labels.dart';
 
 ThemeData mainTheme = ThemeData(
   fontFamily: "SFPro",
-  // colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
   useMaterial3: true,
+  dialogBackgroundColor: Colors.white,
+  dialogTheme: DialogTheme(
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(width * 16),
+    ),
+  ),
 );
 
 ElevatedButtonThemeData mainButtonTheme = ElevatedButtonThemeData(

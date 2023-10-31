@@ -7,8 +7,8 @@ const List<String> onBoardingImages = [
 const List<String> appIcons = [
   "assets/icons/app/home-alt.svg",
   "assets/icons/app/calendar-dates.svg",
-  "assets/icons/app/check-r.svg",
   "assets/icons/app/notes.svg",
+  "assets/icons/app/check-r.svg",
 ];
 
 const List<String> aboutIcons = [
@@ -23,4 +23,12 @@ const List<String> bottomBarIcons = [
   "assets/icons/app/calendar-dates.svg",
   "assets/icons/app/notes.svg",
   "assets/icons/app/check-r.svg",
+];
+const List<String> categoriesIcons = [
+  "assets/icons/types/personal.svg",
+  "assets/icons/types/life.svg",
+  "assets/icons/types/education.svg",
+  "assets/icons/types/work.svg",
+  "assets/icons/types/sport.svg",
+  "assets/icons/types/cooking.svg",
 ];

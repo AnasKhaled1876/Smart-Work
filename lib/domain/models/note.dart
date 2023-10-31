@@ -86,7 +86,6 @@ class Note {
   @override
   bool operator ==(covariant Note other) {
     if (identical(this, other)) return true;
-
     return other.id == id &&
         other.title == title &&
         other.description == description &&

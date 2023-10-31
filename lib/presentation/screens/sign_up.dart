@@ -4,8 +4,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:smart_work/config/main_theme.dart';
 import 'package:smart_work/presentation/assets/color_manager.dart';
 import '../../cubits/cubit/app_cubit.dart';
+import '../../domain/models/user_profile.dart';
 import '../../utils/constants/labels.dart';
-import 'home_screen.dart';
+import 'home.dart';
 
 class AddInfoScreen extends StatefulWidget {
   const AddInfoScreen({super.key});
@@ -20,14 +21,24 @@ class _AddInfoScreenState extends State<AddInfoScreen> {
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  bool isPasswordVisible = false;
+
+  bool obscureText = true;
+
   final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AppCubit, AppState>(
-      listener: (context, state) {},
+      listener: (context, state) {
+        if (state is RegisterUserSuccessState) {
+          Navigator.popAndPushNamed(context, HomeScreen.routeName);
+        }
+        if (state is RegisterUserErrorState) {
+          Navigator.popAndPushNamed(context, HomeScreen.routeName);
+        }
+      },
       builder: (context, state) {
-        // AppCubit cubit = AppCubit.get(context);
+        AppCubit cubit = AppCubit.get(context);
         return Scaffold(
           resizeToAvoidBottomInset: false,
           body: SafeArea(
@@ -61,7 +72,7 @@ class _AddInfoScreenState extends State<AddInfoScreen> {
                 padding: EdgeInsets.only(
                   left: width * 40,
                   right: width * 40,
-                  top: height * 40,
+                  top: height * 20,
                 ),
                 child: Form(
                   key: _formKey,
@@ -80,6 +91,9 @@ class _AddInfoScreenState extends State<AddInfoScreen> {
                           height: height * 107,
                         ),
                         TextFormField(
+                          onTapOutside: (event) {
+                            FocusScope.of(context).unfocus();
+                          },
                           validator: (value) {
                             if (value!.isEmpty ||
                                 value.contains(RegExp(r'[0-9]'))) {
@@ -101,6 +115,9 @@ class _AddInfoScreenState extends State<AddInfoScreen> {
                           height: height * 24,
                         ),
                         TextFormField(
+                          onTapOutside: (event) {
+                            FocusScope.of(context).unfocus();
+                          },
                           validator: (value) {
                             if (value!.isEmpty ||
                                 !value.contains('@') ||
@@ -109,6 +126,8 @@ class _AddInfoScreenState extends State<AddInfoScreen> {
                             }
                             return null;
                           },
+                          keyboardType: TextInputType.emailAddress,
+                          textInputAction: TextInputAction.next,
                           controller: emailController,
                           decoration: InputDecoration(
                             hintText: 'Write Your Email',
@@ -123,25 +142,30 @@ class _AddInfoScreenState extends State<AddInfoScreen> {
                           height: height * 24,
                         ),
                         TextFormField(
+                          onTapOutside: (event) {
+                            FocusScope.of(context).unfocus();
+                          },
                           validator: (value) {
                             if (value!.isEmpty || value.length < 6) {
                               return 'Please enter some text';
                             }
                             return null;
                           },
-                          obscureText: isPasswordVisible,
+                          keyboardType: TextInputType.text,
+                          textInputAction: TextInputAction.done,
+                          obscureText: obscureText,
                           controller: passwordController,
                           decoration: InputDecoration(
                             suffix: TextButton(
                               onPressed: () {
                                 setState(() {
-                                  isPasswordVisible = !isPasswordVisible;
+                                  obscureText = !obscureText;
                                 });
                               },
                               child: Text(
                                 'Show',
                                 style: TextStyle(
-                                  decoration: isPasswordVisible
+                                  decoration: obscureText
                                       ? null
                                       : TextDecoration.lineThrough,
                                   color: primaryColor,
@@ -206,36 +230,40 @@ class _AddInfoScreenState extends State<AddInfoScreen> {
                           style: mainButtonTheme.style,
                           onPressed: () {
                             if (_formKey.currentState!.validate()) {
-                              // cubit.registerUser(
-                              //     user: UserProfile(
-                              //   name: nameController.text,
-                              //   email: emailController.text,
-                              //   password: passwordController.text,
-                              // ));
-                              Navigator.popAndPushNamed(
-                                  context, HomeScreen.routeName);
+                              cubit.registerUser(
+                                  user: UserProfile(
+                                      name: nameController.text,
+                                      email: emailController.text,
+                                      password: passwordController.text,
+                                      age: 22));
                             }
                           },
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text(
-                                'Get Started',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: textSize * 20,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              const Spacer(),
-                              SvgPicture.asset(
-                                "assets/icons/arrow_right.svg",
-                                width: width * 24,
-                                height: height * 24,
-                              ),
-                            ],
+                          child: AnimatedSwitcher(
+                            duration: const Duration(milliseconds: 600),
+                            child: state is RegisterUserLoadingState
+                                ? const CircularProgressIndicator()
+                                : Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        'Get Started',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: textSize * 20,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                      const Spacer(),
+                                      SvgPicture.asset(
+                                        "assets/icons/arrow_right.svg",
+                                        width: width * 24,
+                                        height: height * 24,
+                                      ),
+                                    ],
+                                  ),
                           ),
                         ),
                         SizedBox(
