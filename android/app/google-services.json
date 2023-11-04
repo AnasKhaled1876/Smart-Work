@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "142623629027",
+    "project_id": "smart-work-eea26",
+    "storage_bucket": "smart-work-eea26.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:142623629027:android:01f37102f9925e4071efd6",
+        "android_client_info": {
+          "package_name": "com.example.smart_work"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCC_TR0Z6s95o--Z_9UzJLOBn27Vvird4E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_work/cubits/cubit/app_cubit.dart';
 import 'package:smart_work/injection.dart';
@@ -10,10 +11,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:smart_work/presentation/widgets/note/note_details.dart';
 import 'package:smart_work/presentation/widgets/task/task_details.dart';
+import 'firebase_options.dart';
 import 'utils/constants/labels.dart';
 
 void main() async {
   await initializeDependencies();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 
