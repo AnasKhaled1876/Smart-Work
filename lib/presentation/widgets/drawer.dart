@@ -30,9 +30,11 @@ class AdvancedDrawerWidget extends StatelessWidget {
             ),
             Positioned(
               top: height * 90,
-              left: width * 40,
+              left: width * 15,
               child: Image.asset(
                 "assets/images/logo_icon.png",
+                width: width * 60,
+                height: height * 60,
               ),
             ),
             Positioned(

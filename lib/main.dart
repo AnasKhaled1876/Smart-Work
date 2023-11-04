@@ -1,7 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_work/cubits/cubit/app_cubit.dart';
 import 'package:smart_work/injection.dart';
-import 'package:smart_work/presentation/assets/color_manager.dart';
 import 'package:smart_work/presentation/screens/sign_up.dart';
 import 'package:smart_work/presentation/screens/home.dart';
 import 'package:smart_work/presentation/screens/on_boarding.dart';
@@ -9,6 +8,7 @@ import 'package:smart_work/presentation/screens/splash.dart';
 import 'package:smart_work/config/main_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:smart_work/presentation/widgets/note/note_details.dart';
 import 'utils/constants/labels.dart';
 
 void main() async {
@@ -35,10 +35,10 @@ class _MyAppState extends State<MyApp> {
 
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle.light.copyWith(
-        statusBarColor: primaryColor,
+        statusBarColor: Colors.white,
         statusBarIconBrightness: Brightness.dark,
         statusBarBrightness: Brightness.dark,
-        systemNavigationBarColor: primaryColor,
+        systemNavigationBarColor: Colors.white,
         systemNavigationBarIconBrightness: Brightness.light,
       ),
     );
@@ -52,6 +52,7 @@ class _MyAppState extends State<MyApp> {
           OnBoardingScreen.routeName: (context) => const OnBoardingScreen(),
           AddInfoScreen.routeName: (context) => const AddInfoScreen(),
           HomeScreen.routeName: (context) => const HomeScreen(),
+          NoteDetailsScreen.routeName: (context) => const NoteDetailsScreen(),
         },
         initialRoute: '/splash',
       ),

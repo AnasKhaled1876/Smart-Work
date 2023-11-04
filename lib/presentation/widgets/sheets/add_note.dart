@@ -33,7 +33,7 @@ class _AddNoteSheetState extends State<AddNoteSheet> {
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: textSize * 16,
-                  fontFamily: 'SF Pro',
+                  fontFamily: 'SFPro',
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -51,7 +51,7 @@ class _AddNoteSheetState extends State<AddNoteSheet> {
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: textSize * 16,
-                  fontFamily: 'SF Pro',
+                  fontFamily: 'SFPro',
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -114,7 +114,7 @@ class _AddNoteSheetState extends State<AddNoteSheet> {
                         hintStyle: TextStyle(
                           color: primaryColor.withOpacity(0.6),
                           fontSize: textSize * 16,
-                          fontFamily: 'SF Pro',
+                          fontFamily: 'SFPro',
                           fontWeight: FontWeight.w600,
                         ),
                         enabledBorder: InputBorder.none,
@@ -131,7 +131,7 @@ class _AddNoteSheetState extends State<AddNoteSheet> {
                       style: TextStyle(
                         color: primaryColor,
                         fontSize: textSize * 23,
-                        fontFamily: 'SF Pro Display',
+                        fontFamily: 'SFPro Display',
                         fontWeight: FontWeight.w400,
                       ),
                     ),
@@ -144,7 +144,7 @@ class _AddNoteSheetState extends State<AddNoteSheet> {
                         style: TextStyle(
                           color: primaryColor,
                           fontSize: textSize * 16,
-                          fontFamily: 'SF Pro Display',
+                          fontFamily: 'SFPro Display',
                           fontWeight: FontWeight.w600,
                         ),
                       ),
@@ -178,7 +178,7 @@ class _AddNoteSheetState extends State<AddNoteSheet> {
                                 style: TextStyle(
                                   color: primaryColor,
                                   fontSize: textSize * 17,
-                                  fontFamily: 'SF Pro',
+                                  fontFamily: 'SFPro',
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
@@ -239,7 +239,7 @@ class _AddNoteSheetState extends State<AddNoteSheet> {
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontSize: textSize * 16,
-                                      fontFamily: 'SF Pro',
+                                      fontFamily: 'SFPro',
                                       fontWeight: FontWeight.w600,
                                     ),
                                   ),

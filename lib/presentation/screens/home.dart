@@ -5,13 +5,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:smart_work/cubits/cubit/app_cubit.dart';
 import 'package:smart_work/presentation/assets/color_manager.dart';
-import 'package:smart_work/presentation/widgets/main_widgets/note.dart';
+import 'package:smart_work/presentation/widgets/main/note.dart';
 import 'package:smart_work/utils/constants/labels.dart';
+import 'package:smart_work/utils/constants/maps.dart';
 import 'package:smart_work/utils/extensions/string.dart';
 import '../../utils/constants/images.dart';
 import '../widgets/drawer.dart';
 import '../widgets/home/icon_container.dart';
-import '../widgets/main_widgets/home.dart';
+import '../widgets/main/calendar.dart';
+import '../widgets/main/home.dart';
 import '../widgets/sheets/add_note.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -28,7 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
       case 0:
         return const HomeWidget();
       case 1:
-        return Container();
+        return const CalendarWidget();
       case 3:
         return const NoteWidget();
       case 4:
@@ -58,13 +60,15 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Scaffold(
             extendBody: true,
             appBar: AppBar(
-              systemOverlayStyle: SystemUiOverlayStyle.dark.copyWith(
+              toolbarHeight: 0,
+              elevation: 0,
+              systemOverlayStyle: const SystemUiOverlayStyle(
                 statusBarColor: Colors.white,
                 statusBarIconBrightness: Brightness.dark,
+                statusBarBrightness: Brightness.dark,
                 systemNavigationBarColor: Colors.white,
-                systemNavigationBarDividerColor: Colors.white,
+                systemNavigationBarIconBrightness: Brightness.light,
               ),
-              toolbarHeight: 0,
             ),
             body: SingleChildScrollView(
               child: Container(
@@ -79,6 +83,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Column(
                   children: [
                     Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         IconContainer(
                           onTap: () {
@@ -96,16 +101,30 @@ class _HomeScreenState extends State<HomeScreen> {
                           width: width * 16,
                         ),
                         AnimatedSwitcher(
-                          duration: const Duration(milliseconds: 300),
+                          duration: const Duration(milliseconds: 600),
+                          transitionBuilder: (child, animation) {
+                            return FadeTransition(
+                              opacity: animation,
+                              child: SlideTransition(
+                                position: Tween<Offset>(
+                                  begin: const Offset(0.0, -0.5),
+                                  end: Offset.zero,
+                                ).animate(animation),
+                                child: child,
+                              ),
+                            );
+                          },
                           child: cubit.currentIndex == 0
                               ? WelcomeRow(
                                   name: cubit.userProfile!.name!.toTitleCase())
                               : Text(
                                   titleMap[cubit.currentIndex]!,
+                                  key: ValueKey<String>(
+                                      titleMap[cubit.currentIndex]!),
                                   style: TextStyle(
                                     color: primaryColor,
-                                    fontSize: textSize * 24,
-                                    fontFamily: 'SF Pro Display',
+                                    fontSize: textSize * 22,
+                                    fontFamily: 'SFPro',
                                     fontWeight: FontWeight.w400,
                                     letterSpacing: 0.50,
                                   ),
@@ -114,33 +133,42 @@ class _HomeScreenState extends State<HomeScreen> {
                         const Spacer(),
                         IconContainer(
                           onTap: () {
-                            showDialog(
-                              useSafeArea: true,
-                              context: context,
-                              // constraints: BoxConstraints.expand(
-                              //   height:
-                              //       MediaQuery.of(context).size.height * 0.9,
-                              // ),
-                              builder: (context) => const AlertDialog(
-                                backgroundColor: Colors.white,
-                                contentPadding: EdgeInsets.zero,
-                                content: AddNoteSheet(),
-                              ),
-
-                              // isScrollControlled: true,
-                            );
+                            switch (cubit.currentIndex) {
+                              case 0:
+                                cubit.advancedDrawerController.showDrawer();
+                                break;
+                              case 1:
+                                showDatePicker(
+                                  context: context,
+                                  initialDate: DateTime.now(),
+                                  firstDate: DateTime(2021),
+                                  lastDate: DateTime(2025),
+                                ).then((value) {
+                                  if (value != null) {
+                                    cubit.selectedDate = value;
+                                    cubit.changeSelectedDate(date: value);
+                                  }
+                                });
+                                break;
+                              case 3:
+                                showDialog(
+                                  useSafeArea: true,
+                                  context: context,
+                                  builder: (context) => const AlertDialog(
+                                    backgroundColor: Colors.white,
+                                    contentPadding: EdgeInsets.zero,
+                                    content: AddNoteSheet(),
+                                  ),
+                                );
+                                break;
+                              case 4:
+                                cubit.advancedDrawerController.showDrawer();
+                                break;
+                              default:
+                                cubit.advancedDrawerController.showDrawer();
+                            }
                           },
-                          child: SvgPicture.asset(
-                            cubit.currentIndex == 0
-                                ? 'assets/icons/bell.svg'
-                                : 'assets/icons/add.svg',
-                            colorFilter: const ColorFilter.mode(
-                              Color(0xFF242041),
-                              BlendMode.srcIn,
-                            ),
-                            height: height * 20,
-                            width: width * 20,
-                          ),
+                          child: sideButton[cubit.currentIndex]!,
                         )
                       ],
                     ),

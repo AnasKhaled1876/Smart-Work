@@ -34,7 +34,11 @@ class _AddInfoScreenState extends State<AddInfoScreen> {
           Navigator.popAndPushNamed(context, HomeScreen.routeName);
         }
         if (state is RegisterUserErrorState) {
-          Navigator.popAndPushNamed(context, HomeScreen.routeName);
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(state.error),
+            ),
+          );
         }
       },
       builder: (context, state) {
@@ -232,14 +236,16 @@ class _AddInfoScreenState extends State<AddInfoScreen> {
                             if (_formKey.currentState!.validate()) {
                               cubit.registerUser(
                                   user: UserProfile(
-                                      name: nameController.text,
-                                      email: emailController.text,
-                                      password: passwordController.text,
-                                      age: 22));
+                                name: nameController.text,
+                                email: emailController.text,
+                                password: passwordController.text,
+                                age: 22,
+                                gender: "Male",
+                              ));
                             }
                           },
-                          child: AnimatedSwitcher(
-                            duration: const Duration(milliseconds: 600),
+                          child: AnimatedSize(
+                            duration: const Duration(milliseconds: 400),
                             child: state is RegisterUserLoadingState
                                 ? const CircularProgressIndicator()
                                 : Row(

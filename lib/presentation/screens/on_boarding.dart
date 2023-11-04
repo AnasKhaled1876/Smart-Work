@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:smart_work/config/main_theme.dart';
 import 'package:smart_work/presentation/assets/color_manager.dart';
@@ -20,11 +21,18 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        toolbarOpacity: 0.0,
-        toolbarHeight: 0,
-        elevation: 0,
-      ),
+          toolbarOpacity: 0.0,
+          toolbarHeight: 0,
+          elevation: 0,
+          systemOverlayStyle: const SystemUiOverlayStyle(
+            statusBarColor: Colors.white,
+            statusBarIconBrightness: Brightness.dark,
+            statusBarBrightness: Brightness.dark,
+            systemNavigationBarColor: Colors.white,
+            systemNavigationBarIconBrightness: Brightness.light,
+          )),
       extendBodyBehindAppBar: true,
       extendBody: true,
       body: SafeArea(

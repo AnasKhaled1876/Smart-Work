@@ -1,14 +1,9 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:intl/intl.dart';
-
 import '../../../domain/models/note.dart';
 import '../../../utils/constants/images.dart';
 import '../../../utils/constants/labels.dart';
-import '../../assets/color_manager.dart';
-import '../linear_progress_bar.dart';
 
 class NoteTile extends StatelessWidget {
   const NoteTile({
@@ -20,14 +15,13 @@ class NoteTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(
-        horizontal: width * 8,
-        vertical: height * 12,
-      ),
+      height: height * 60,
+      margin: EdgeInsets.only(bottom: height * 22),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
+            height: height * 65,
             padding: EdgeInsets.all(width * 22),
             decoration: ShapeDecoration(
               color: const Color(0xFFF7F5FF),
@@ -49,52 +43,29 @@ class NoteTile extends StatelessWidget {
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  SvgPicture.asset(
-                    "assets/icons/stopwatch.svg",
-                    width: width * 8,
-                    height: height * 10,
-                  ),
-                  SizedBox(
-                    width: width * 8,
-                  ),
-                  Text(
-                    DateFormat("hh:mm a")
-                        .format(note.finishTime ?? DateTime.now()),
-                    style: TextStyle(
-                      color: const Color(0x5E242041),
-                      fontSize: textSize * 10,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  // const Spacer(),
-                ],
-              ),
-              SizedBox(
-                height: height * 10,
-              ),
               Text(
                 note.description ?? "No title",
                 style: TextStyle(
                   color: const Color(0xFF242041),
-                  fontSize: textSize * 14,
+                  fontSize: textSize * 15,
                   fontWeight: FontWeight.w400,
                 ),
               ),
               SizedBox(
-                height: height * 16,
+                height: height * 8,
               ),
               SizedBox(
-                width: width * 220,
-                child: LinearProgressBar(
-                  progress: 0.5,
-                  borderRadius: width * 3,
-                  height: height * 3,
-                  backgroundColor: const Color(0xffDBDBDB),
-                  progressColor: primaryColor,
+                width: width * 233,
+                child: Text(
+                  'Lorem ipsum dolor sit amet consectetur...',
+                  style: TextStyle(
+                    color: const Color(0x5E242041),
+                    fontSize: textSize * 11,
+                    fontFamily: 'SFPro',
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
             ],

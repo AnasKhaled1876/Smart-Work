@@ -1,14 +1,11 @@
 import 'dart:developer';
-
-import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
+import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:meta/meta.dart';
 import 'package:smart_work/injection.dart';
-
 import '../../domain/models/note.dart';
 import '../../domain/models/task.dart';
 import '../../domain/models/user_profile.dart';
@@ -21,11 +18,22 @@ class AppCubit extends Cubit<AppState> {
   static AppCubit get(context) => BlocProvider.of(context);
 
   int currentIndex = 0;
+  CalendarController? calendarController;
+  DateTime? selectedDate;
+  Note? selectedNote;
   int selectedNoteCategory = 0;
-  TabController? tabController;
+  TabController? noteTabController, taskTabController;
   UserProfile? userProfile;
+
   AdvancedDrawerController advancedDrawerController =
       AdvancedDrawerController();
+
+  void changeSelectedDate({required DateTime date}) {
+    emit(AppChangingState());
+    calendarController!.selectedDate = date;
+    calendarController!.displayDate = date;
+    emit(AppChangeBottomNavBarState());
+  }
 
   void changeIndex(int index) {
     emit(AppChangingState());
@@ -53,6 +61,7 @@ class AppCubit extends Cubit<AppState> {
       userProfile = UserProfile.fromMap(value.data["user"]);
       emit(RegisterUserSuccessState());
     }).catchError((error) {
+      log(error.toString());
       emit(RegisterUserErrorState(error.toString()));
     });
   }
@@ -103,7 +112,9 @@ class AppCubit extends Cubit<AppState> {
       "userId": userProfile!.id!,
     }).then((value) {
       log(value.toString());
-
+      if (userProfile!.notes == null) {
+        userProfile!.notes = [];
+      }
       userProfile!.notes!.add(Note.fromMap(value.data));
       emit(AddNoteSuccessState());
     }).catchError((error) {

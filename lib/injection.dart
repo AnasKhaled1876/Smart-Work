@@ -9,8 +9,8 @@ Future<void> initializeDependencies() async {
   final Dio dio = Dio();
   dio.options
     ..baseUrl = 'http://spekyl2023-001-site3.atempurl.com/'
-    ..connectTimeout = const Duration(seconds: 5)
-    ..receiveTimeout = const Duration(seconds: 3)
+    ..connectTimeout = const Duration(seconds: 10)
+    ..receiveTimeout = const Duration(seconds: 10)
     // ..headers = {
     //   'Content-Type': 'application/json',
     // }

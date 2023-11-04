@@ -1,5 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -64,6 +66,19 @@ class _SplashScreenState extends State<SplashScreen> {
         return Scaffold(
           extendBodyBehindAppBar: true,
           backgroundColor: primaryColor,
+          appBar: AppBar(
+            toolbarHeight: 0.0,
+            toolbarOpacity: 0.0,
+            elevation: 0,
+            systemOverlayStyle: SystemUiOverlayStyle.light.copyWith(
+              statusBarColor: primaryColor,
+              statusBarIconBrightness:
+                  Platform.isIOS ? Brightness.dark : Brightness.light,
+              statusBarBrightness: Brightness.light,
+              systemNavigationBarColor: primaryColor,
+              systemNavigationBarIconBrightness: Brightness.light,
+            ),
+          ),
           body: SafeArea(
             child: Stack(
               children: [

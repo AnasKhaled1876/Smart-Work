@@ -1,9 +1,11 @@
 import 'package:smart_work/cubits/cubit/app_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_work/presentation/widgets/note/note_tile.dart';
+import '../../../domain/models/note.dart';
 import '../../../utils/constants/labels.dart';
 import '../../assets/color_manager.dart';
 import 'package:flutter/material.dart';
+import '../note/note_details.dart';
 import '../note/tab_bar.dart';
 
 class NoteWidget extends StatefulWidget {
@@ -16,13 +18,15 @@ class NoteWidget extends StatefulWidget {
 class _NoteWidgetState extends State<NoteWidget>
     with SingleTickerProviderStateMixin {
   int index = 0;
+  TextEditingController titleController = TextEditingController();
   @override
   void initState() {
     super.initState();
-    AppCubit.get(context).tabController = TabController(length: 3, vsync: this);
-    AppCubit.get(context).tabController!.addListener(() {
+    AppCubit.get(context).noteTabController =
+        TabController(length: 3, vsync: this);
+    AppCubit.get(context).noteTabController!.addListener(() {
       setState(() {
-        index = AppCubit.get(context).tabController!.index;
+        index = AppCubit.get(context).noteTabController!.index;
       });
     });
   }
@@ -35,7 +39,7 @@ class _NoteWidgetState extends State<NoteWidget>
         AppCubit cubit = AppCubit.get(context);
         return Column(
           children: [
-            NoteTabBar(tabController: cubit.tabController!, index: index),
+            NoteTabBar(tabController: cubit.noteTabController!, index: index),
             SizedBox(
               height: height * 16,
             ),
@@ -49,7 +53,7 @@ class _NoteWidgetState extends State<NoteWidget>
                 hintStyle: TextStyle(
                   color: primaryColor,
                   fontSize: textSize * 14,
-                  fontFamily: 'SF Pro',
+                  fontFamily: 'SFPro',
                   fontWeight: FontWeight.w600,
                 ),
                 border: OutlineInputBorder(
@@ -69,33 +73,49 @@ class _NoteWidgetState extends State<NoteWidget>
             SizedBox(
               height: height * 450,
               child: TabBarView(
-                controller: cubit.tabController,
+                controller: cubit.noteTabController,
                 children: [
-                  ListView.builder(
-                    itemCount: cubit.userProfile?.notes?.length ?? 0,
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) => NoteTile(
-                      note: cubit.userProfile!.notes![index],
-                    ),
-                  ),
-                  ListView.builder(
-                    itemCount: cubit.userProfile?.notes?.length ?? 0,
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) => NoteTile(
-                      note: cubit.userProfile!.notes![index],
-                    ),
-                  ),
-                  ListView.builder(
-                    itemCount: cubit.userProfile?.notes?.length ?? 0,
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) => NoteTile(
-                      note: cubit.userProfile!.notes![index],
-                    ),
-                  )
+                  NoteList(notes: cubit.userProfile!.notes!),
+                  NoteList(notes: cubit.userProfile!.notes!),
+                  NoteList(notes: cubit.userProfile!.notes!),
                 ],
               ),
             )
           ],
+        );
+      },
+    );
+  }
+}
+
+class NoteList extends StatelessWidget {
+  const NoteList({
+    super.key,
+    required this.notes,
+  });
+
+  final List<Note> notes;
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocConsumer<AppCubit, AppState>(
+      listener: (context, state) {},
+      builder: (context, state) {
+        return ListView.builder(
+          itemCount: notes.length,
+          shrinkWrap: true,
+          itemBuilder: (context, index) => InkWell(
+            onTap: () {
+              AppCubit.get(context).selectedNote = notes[index];
+              Navigator.pushNamed(
+                context,
+                NoteDetailsScreen.routeName,
+              );
+            },
+            child: NoteTile(
+              note: notes[index],
+            ),
+          ),
         );
       },
     );
