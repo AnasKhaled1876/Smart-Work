@@ -21,10 +21,10 @@ class AppCubit extends Cubit<AppState> {
   CalendarController? calendarController;
   DateTime? selectedDate;
   Note? selectedNote;
+  Task? selectedTask;
   int selectedNoteCategory = 0;
-  TabController? noteTabController, taskTabController;
+  TabController? noteTabController, calendarTabController, tasksTabController;
   UserProfile? userProfile;
-
   AdvancedDrawerController advancedDrawerController =
       AdvancedDrawerController();
 
@@ -79,12 +79,14 @@ class AppCubit extends Cubit<AppState> {
     });
   }
 
-  void addTask({required String title, required String description}) {
+  void addTask({required Task task}) {
     emit(AddTaskLoadingState());
-    locator<Dio>().post('/task/addTask', data: {
-      'title': title,
-      'description': description,
-    }).then((value) {
+    locator<Dio>()
+        .post(
+      '/task/addTask',
+      data: task.toJson(),
+    )
+        .then((value) {
       userProfile!.tasks!.add(Task.fromJson(value.data["task"]));
       emit(AddTaskSuccessState());
     }).catchError((error) {
@@ -105,6 +107,18 @@ class AppCubit extends Cubit<AppState> {
     );
   }
 
+  void deleteTask({required int taskId}) {
+    emit(DeleteNoteLoadingState());
+    locator<Dio>().put('/note/deleteTask', queryParameters: {
+      'id': taskId,
+    }).then((value) {
+      userProfile!.tasks!.removeWhere((element) => element.id == taskId);
+      emit(DeleteNoteSuccessState());
+    }).catchError((error) {
+      emit(DeleteNoteErrorState(error.toString()));
+    });
+  }
+
   void addNote({required Note note}) {
     emit(AddNoteLoadingState());
     locator<Dio>().post('/note/addNote', data: {
@@ -123,13 +137,32 @@ class AppCubit extends Cubit<AppState> {
     });
   }
 
-  void updateNote() {
+  void updateNote({required Note note}) {
     emit(UpdateNotesLoadingState());
-    locator<Dio>().put('/note/updateNote').then((value) {
-      //TODO: Add notes to user profile
+    locator<Dio>()
+        .put('/note/updateNote', data: note.toJson(), queryParameters: {
+      'id': note.id,
+    }).then((value) {
+      final updatedNote = Note.fromMap(value.data);
+      final index = userProfile!.notes!
+          .indexWhere((element) => element.id == selectedNote!.id);
+      userProfile!.notes!.replaceRange(index, index + 1, [updatedNote]);
+
       emit(UpdateNotesSuccessState());
     }).catchError((error) {
       emit(UpdateNotesErrorState(error.toString()));
+    });
+  }
+
+  void deleteNote({required int noteId}) {
+    emit(DeleteNoteLoadingState());
+    locator<Dio>().put('/note/deleteNote', queryParameters: {
+      'id': noteId,
+    }).then((value) {
+      userProfile!.notes!.removeWhere((element) => element.id == noteId);
+      emit(DeleteNoteSuccessState());
+    }).catchError((error) {
+      emit(DeleteNoteErrorState(error.toString()));
     });
   }
 }

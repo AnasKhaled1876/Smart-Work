@@ -14,7 +14,8 @@ class UserProfile {
   String? name;
   int? age;
   String? gender;
-
+  DateTime? createdAt;
+  DateTime? updatedAt;
   List<Task>? tasks;
   List<Note>? notes;
   UserProfile({

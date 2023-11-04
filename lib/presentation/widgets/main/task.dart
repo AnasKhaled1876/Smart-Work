@@ -1,20 +1,20 @@
+import 'package:smart_work/presentation/widgets/home/task_tile.dart';
 import 'package:smart_work/cubits/cubit/app_cubit.dart';
+import 'package:smart_work/domain/models/task.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:smart_work/presentation/widgets/note/note_tile.dart';
-import '../../../domain/models/note.dart';
+import 'package:smart_work/presentation/widgets/task/tab_bar.dart';
 import '../../../utils/constants/labels.dart';
 import '../../assets/color_manager.dart';
 import 'package:flutter/material.dart';
-import '../note/tab_bar.dart';
 
-class NoteWidget extends StatefulWidget {
-  const NoteWidget({super.key});
+class TaskWidget extends StatefulWidget {
+  const TaskWidget({super.key});
 
   @override
-  State<NoteWidget> createState() => _NoteWidgetState();
+  State<TaskWidget> createState() => _TaskWidgetState();
 }
 
-class _NoteWidgetState extends State<NoteWidget>
+class _TaskWidgetState extends State<TaskWidget>
     with SingleTickerProviderStateMixin {
   int index = 0;
   TextEditingController titleController = TextEditingController();
@@ -25,7 +25,7 @@ class _NoteWidgetState extends State<NoteWidget>
         TabController(length: 3, vsync: this);
     AppCubit.get(context).noteTabController!.addListener(() {
       setState(() {
-        index = AppCubit.get(context).noteTabController!.index;
+        index = AppCubit.get(context).tasksTabController!.index;
       });
     });
   }
@@ -38,7 +38,7 @@ class _NoteWidgetState extends State<NoteWidget>
         AppCubit cubit = AppCubit.get(context);
         return Column(
           children: [
-            NoteTabBar(tabController: cubit.noteTabController!, index: index),
+            TaskTabBar(tabController: cubit.noteTabController!, index: index),
             SizedBox(
               height: height * 16,
             ),
@@ -74,22 +74,19 @@ class _NoteWidgetState extends State<NoteWidget>
               child: TabBarView(
                 controller: cubit.noteTabController,
                 children: [
-                  NoteList(
-                      notes: cubit.userProfile?.notes
-                              ?.where(
-                                (element) =>
-                                    !element.isArchived! &&
-                                    !element.isImportant!,
-                              )
+                  TaskList(
+                      tasks: cubit.userProfile?.tasks
+                              ?.where((element) =>
+                                  !element.isArchived! && !element.isImportant!)
                               .toList() ??
                           []),
-                  NoteList(
-                      notes: cubit.userProfile?.notes
+                  TaskList(
+                      tasks: cubit.userProfile?.tasks
                               ?.where((element) => element.isImportant!)
                               .toList() ??
                           []),
-                  NoteList(
-                      notes: cubit.userProfile?.notes
+                  TaskList(
+                      tasks: cubit.userProfile?.tasks
                               ?.where((element) => element.isArchived!)
                               .toList() ??
                           []),
@@ -103,22 +100,22 @@ class _NoteWidgetState extends State<NoteWidget>
   }
 }
 
-class NoteList extends StatelessWidget {
-  const NoteList({
+class TaskList extends StatelessWidget {
+  const TaskList({
     super.key,
-    required this.notes,
+    required this.tasks,
   });
 
-  final List<Note> notes;
+  final List<Task> tasks;
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: notes.length,
+      itemCount: tasks.length,
       shrinkWrap: true,
       itemBuilder: (context, index) => InkWell(
-        child: NoteTile(
-          note: notes[index],
+        child: TaskTile(
+          task: tasks[index],
         ),
       ),
     );

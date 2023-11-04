@@ -19,14 +19,14 @@ class _CalendarWidgetState extends State<CalendarWidget>
   @override
   void initState() {
     super.initState();
-    AppCubit.get(context).taskTabController =
+    AppCubit.get(context).calendarTabController =
         TabController(length: 3, vsync: this, initialIndex: 1);
     AppCubit.get(context).calendarController = CalendarController();
     AppCubit.get(context).calendarController!.selectedDate = DateTime.now();
     AppCubit.get(context).selectedDate = DateTime.now();
-    AppCubit.get(context).taskTabController!.addListener(() {
+    AppCubit.get(context).calendarTabController!.addListener(() {
       setState(() {
-        index = AppCubit.get(context).taskTabController!.index;
+        index = AppCubit.get(context).calendarTabController!.index;
       });
     });
   }
@@ -39,11 +39,12 @@ class _CalendarWidgetState extends State<CalendarWidget>
         AppCubit cubit = AppCubit.get(context);
         return Column(
           children: [
-            TaskTabBar(tabController: cubit.taskTabController!, index: index),
+            CalendarTabBar(
+                tabController: cubit.calendarTabController!, index: index),
             SizedBox(
               height: MediaQuery.sizeOf(context).height * 0.6,
               child: TabBarView(
-                controller: cubit.taskTabController,
+                controller: cubit.calendarTabController,
                 children: [
                   SfCalendar(
                     controller: cubit.calendarController!,
@@ -52,17 +53,19 @@ class _CalendarWidgetState extends State<CalendarWidget>
                   SfCalendar(
                     controller: cubit.calendarController!,
                     dataSource: MeetingDataSource(
-                      source: cubit.userProfile!.tasks!
-                          .map(
-                            (task) => Appointment(
-                              startTime: task.finishTime!,
-                              endTime: task.finishTime!
-                                  .add(const Duration(hours: 1)),
-                              subject: task.title!,
-                              color: primaryColor,
-                            ),
-                          )
-                          .toList(),
+                      source: cubit.userProfile!.tasks != null
+                          ? cubit.userProfile!.tasks!
+                              .map(
+                                (task) => Appointment(
+                                  startTime: task.finishTime!,
+                                  endTime: task.finishTime!
+                                      .add(const Duration(hours: 1)),
+                                  subject: task.title!,
+                                  color: primaryColor,
+                                ),
+                              )
+                              .toList()
+                          : [],
                     ),
                     timeSlotViewSettings: const TimeSlotViewSettings(
                         nonWorkingDays: <int>[

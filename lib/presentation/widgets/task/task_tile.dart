@@ -3,17 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:smart_work/cubits/cubit/app_cubit.dart';
-import '../../../domain/models/note.dart';
+import '../../../domain/models/task.dart';
 import '../../../utils/constants/images.dart';
 import '../../../utils/constants/labels.dart';
-import 'note_details.dart';
+import 'task_details.dart';
 
-class NoteTile extends StatelessWidget {
-  const NoteTile({
+class TaskTile extends StatelessWidget {
+  const TaskTile({
     super.key,
-    required this.note,
+    required this.task,
   });
-  final Note note;
+  final Task task;
 
   @override
   Widget build(BuildContext context) {
@@ -29,10 +29,10 @@ class NoteTile extends StatelessWidget {
             children: [
               InkWell(
                 onTap: () {
-                  cubit.selectedNote = note;
+                  cubit.selectedTask = task;
                   Navigator.pushNamed(
                     context,
-                    NoteDetailsScreen.routeName,
+                    TaskDetailsScreen.routeName,
                   );
                 },
                 child: Row(
@@ -49,7 +49,7 @@ class NoteTile extends StatelessWidget {
                         ),
                       ),
                       child: SvgPicture.asset(
-                        categoriesIcons[note.categoryId ??
+                        categoriesIcons[task.categoryId ??
                             Random().nextInt(categoriesIcons.length)],
                         width: width * 24,
                         height: height * 24,
@@ -63,7 +63,7 @@ class NoteTile extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          note.description ?? "No title",
+                          task.description ?? "No title",
                           style: TextStyle(
                             color: const Color(0xFF242041),
                             fontSize: textSize * 15,
@@ -93,8 +93,8 @@ class NoteTile extends StatelessWidget {
               const Spacer(),
               InkWell(
                 onTap: () {
-                  cubit.updateNote(
-                    note: note.copyWith(
+                  cubit.updateTask(
+                    task: task.copyWith(
                       isImportant: true,
                     ),
                   );

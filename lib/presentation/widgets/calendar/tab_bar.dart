@@ -5,8 +5,8 @@ import 'package:smart_work/cubits/cubit/app_cubit.dart';
 import 'package:smart_work/presentation/assets/color_manager.dart';
 import 'package:smart_work/utils/constants/labels.dart';
 
-class TaskTabBar extends StatefulWidget {
-  const TaskTabBar({
+class CalendarTabBar extends StatefulWidget {
+  const CalendarTabBar({
     super.key,
     required this.tabController,
     required this.index,
@@ -16,10 +16,10 @@ class TaskTabBar extends StatefulWidget {
   final int index;
 
   @override
-  State<TaskTabBar> createState() => _TaskTabBarState();
+  State<CalendarTabBar> createState() => _CalendarTabBarState();
 }
 
-class _TaskTabBarState extends State<TaskTabBar> {
+class _CalendarTabBarState extends State<CalendarTabBar> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AppCubit, AppState>(

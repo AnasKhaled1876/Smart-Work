@@ -9,6 +9,7 @@ import 'package:smart_work/config/main_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:smart_work/presentation/widgets/note/note_details.dart';
+import 'package:smart_work/presentation/widgets/task/task_details.dart';
 import 'utils/constants/labels.dart';
 
 void main() async {
@@ -53,6 +54,7 @@ class _MyAppState extends State<MyApp> {
           AddInfoScreen.routeName: (context) => const AddInfoScreen(),
           HomeScreen.routeName: (context) => const HomeScreen(),
           NoteDetailsScreen.routeName: (context) => const NoteDetailsScreen(),
+          TaskDetailsScreen.routeName: (context) => const TaskDetailsScreen(),
         },
         initialRoute: '/splash',
       ),

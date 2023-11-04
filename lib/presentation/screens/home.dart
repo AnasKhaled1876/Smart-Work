@@ -6,6 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:smart_work/cubits/cubit/app_cubit.dart';
 import 'package:smart_work/presentation/assets/color_manager.dart';
 import 'package:smart_work/presentation/widgets/main/note.dart';
+import 'package:smart_work/presentation/widgets/main/task.dart';
 import 'package:smart_work/utils/constants/labels.dart';
 import 'package:smart_work/utils/constants/maps.dart';
 import 'package:smart_work/utils/extensions/string.dart';
@@ -34,7 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
       case 3:
         return const NoteWidget();
       case 4:
-        return Container();
+        return const TaskWidget();
 
       default:
         return Container();

@@ -68,3 +68,13 @@ final class AddNoteErrorState extends AppState {
 
   AddNoteErrorState(this.error);
 }
+
+final class DeleteNoteLoadingState extends AppState {}
+
+final class DeleteNoteSuccessState extends AppState {}
+
+final class DeleteNoteErrorState extends AppState {
+  final String error;
+
+  DeleteNoteErrorState(this.error);
+}
