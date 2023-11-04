@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:smart_work/config/main_theme.dart';
+import 'package:smart_work/config/themes/main_theme.dart';
 import 'package:smart_work/presentation/assets/color_manager.dart';
 import 'package:smart_work/presentation/screens/sign_up.dart';
 import 'package:smart_work/utils/constants/images.dart';

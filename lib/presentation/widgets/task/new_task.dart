@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:smart_work/cubits/cubit/app_cubit.dart';
 import 'package:smart_work/domain/models/task.dart';
-import '../../../config/main_theme.dart';
+import '../../../config/themes/main_theme.dart';
 import '../../../utils/constants/labels.dart';
 import '../../assets/color_manager.dart';
 
