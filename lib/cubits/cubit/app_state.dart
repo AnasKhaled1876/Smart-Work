@@ -59,6 +59,17 @@ final class UpdateNotesErrorState extends AppState {
   UpdateNotesErrorState(this.error);
 }
 
+
+final class DeleteTaskLoadingState extends AppState {}
+
+final class DeleteTaskSuccessState extends AppState {}
+
+final class DeleteTaskErrorState extends AppState {
+  final String error;
+
+  DeleteTaskErrorState(this.error);
+}
+
 final class AddNoteLoadingState extends AppState {}
 
 final class AddNoteSuccessState extends AppState {}

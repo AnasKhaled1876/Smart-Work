@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:smart_work/cubits/cubit/app_cubit.dart';
 import 'package:smart_work/presentation/assets/color_manager.dart';
+import 'package:smart_work/presentation/widgets/task/task_details.dart';
 import 'package:smart_work/presentation/widgets/task/task_tile.dart';
 import 'package:smart_work/presentation/widgets/home/main_banner.dart';
 import 'package:smart_work/utils/constants/labels.dart';
@@ -56,8 +57,17 @@ class HomeWidget extends StatelessWidget {
                 ? ListView.builder(
                     itemCount: cubit.userProfile?.tasks?.length ?? 0,
                     shrinkWrap: true,
-                    itemBuilder: (context, index) => TaskTile(
-                      task: cubit.userProfile!.tasks![index],
+                    itemBuilder: (context, index) => InkWell(
+                      onTap: () {
+                        cubit.selectedTask = cubit.userProfile!.tasks![index];
+                        Navigator.pushNamed(
+                          context,
+                          TaskDetailsScreen.routeName,
+                        );
+                      },
+                      child: TaskTile(
+                        task: cubit.userProfile!.tasks![index],
+                      ),
                     ),
                   )
                 : Column(

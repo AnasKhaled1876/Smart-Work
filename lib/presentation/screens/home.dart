@@ -17,6 +17,7 @@ import '../widgets/home/icon_container.dart';
 import '../widgets/main/calendar.dart';
 import '../widgets/main/home.dart';
 import '../widgets/note/add_note.dart';
+import 'pomodoro.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -222,7 +223,9 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             floatingActionButton: FloatingActionButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushNamed(context, PomodoroScreen.routeName);
+              },
               backgroundColor: primaryColor,
               child: SvgPicture.asset(
                 'assets/icons/stopwatch.svg',

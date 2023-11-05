@@ -25,6 +25,7 @@ class AppCubit extends Cubit<AppState> {
   DateTime? selectedDate;
   TimeOfDay? pickedTaskTime;
   DateTime? pickedTaskDate;
+  int selectedPomodoroMode = 0;
   Note? selectedNote;
   Task? selectedTask;
   DateTime now = DateTime.now();
@@ -44,6 +45,12 @@ class AppCubit extends Cubit<AppState> {
   void changeIndex(int index) {
     emit(AppChangingState());
     currentIndex = index;
+    emit(AppChangeBottomNavBarState());
+  }
+
+  void pickPomodoroMode(int index) {
+    emit(AppChangingState());
+    selectedPomodoroMode = index;
     emit(AppChangeBottomNavBarState());
   }
 
@@ -142,14 +149,14 @@ class AppCubit extends Cubit<AppState> {
   }
 
   void deleteTask({required int taskId}) {
-    emit(DeleteNoteLoadingState());
-    locator<Dio>().put('/note/deleteTask', queryParameters: {
+    emit(DeleteTaskLoadingState());
+    locator<Dio>().delete('/task/deleteTask', queryParameters: {
       'id': taskId,
     }).then((value) {
       userProfile!.tasks!.removeWhere((element) => element.id == taskId);
-      emit(DeleteNoteSuccessState());
+      emit(DeleteTaskSuccessState());
     }).catchError((error) {
-      emit(DeleteNoteErrorState(error.toString()));
+      emit(DeleteTaskErrorState(error.toString()));
     });
   }
 

@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:smart_work/cubits/cubit/app_cubit.dart';
 import 'package:smart_work/injection.dart';
+import 'package:smart_work/presentation/screens/pomodoro.dart';
 import 'package:smart_work/presentation/screens/sign_up.dart';
 import 'package:smart_work/presentation/screens/home.dart';
 import 'package:smart_work/presentation/screens/on_boarding.dart';
@@ -88,6 +89,7 @@ class _MyAppState extends State<MyApp> {
           OnBoardingScreen.routeName: (context) => const OnBoardingScreen(),
           AddInfoScreen.routeName: (context) => const AddInfoScreen(),
           HomeScreen.routeName: (context) => const HomeScreen(),
+          PomodoroScreen.routeName: (context) => const PomodoroScreen(),
           NoteDetailsScreen.routeName: (context) => const NoteDetailsScreen(),
           TaskDetailsScreen.routeName: (context) => const TaskDetailsScreen(),
           AddTaskScreen.routeName: (context) => const AddTaskScreen(),
