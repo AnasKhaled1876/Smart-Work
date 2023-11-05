@@ -6,11 +6,11 @@ class Task {
   String? title;
   String? description;
   DateTime? finishTime;
-  bool? isFinished;
-  bool? isImportant;
-  bool? isArchived;
-  bool? isDeleted;
-  bool? isNotified;
+  bool isFinished;
+  bool isImportant;
+  bool isArchived;
+  bool isDeleted;
+  bool isNotified;
   int? categoryId;
   int? points;
   int? duration;
@@ -21,11 +21,11 @@ class Task {
     this.title,
     this.description,
     this.finishTime,
-    this.isFinished,
-    this.isImportant,
-    this.isArchived,
-    this.isDeleted,
-    this.isNotified,
+    this.isFinished = false,
+    this.isImportant = false,
+    this.isArchived = false,
+    this.isDeleted = false,
+    this.isNotified = false,
     this.categoryId,
     this.points,
     this.duration,
@@ -94,12 +94,12 @@ class Task {
           map['description'] != null ? map['description'] as String : null,
       finishTime:
           map['finishTime'] != null ? DateTime.parse(map['finishTime']) : null,
-      isFinished: map['isFinished'] != null ? map['isFinished'] as bool : null,
+      isFinished: map['isFinished'] != null ? map['isFinished'] as bool : false,
       isImportant:
-          map['isImportant'] != null ? map['isImportant'] as bool : null,
-      isArchived: map['isArchived'] != null ? map['isArchived'] as bool : null,
-      isDeleted: map['isDeleted'] != null ? map['isDeleted'] as bool : null,
-      isNotified: map['isNotified'] != null ? map['isNotified'] as bool : null,
+          map['isImportant'] != null ? map['isImportant'] as bool : false,
+      isArchived: map['isArchived'] != null ? map['isArchived'] as bool : false,
+      isDeleted: map['isDeleted'] != null ? map['isDeleted'] as bool : false,
+      isNotified: map['isNotified'] != null ? map['isNotified'] as bool : false,
       categoryId: map['categoryId'] != null ? map['categoryId'] as int : null,
       points: map['points'] != null ? map['points'] as int : null,
       duration: map['duration'] != null ? map['duration'] as int : null,

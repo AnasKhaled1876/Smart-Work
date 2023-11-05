@@ -1,11 +1,14 @@
 import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
-import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:syncfusion_flutter_calendar/calendar.dart';
+
 import 'package:smart_work/injection.dart';
+
 import '../../domain/models/note.dart';
 import '../../domain/models/task.dart';
 import '../../domain/models/user_profile.dart';
@@ -20,9 +23,12 @@ class AppCubit extends Cubit<AppState> {
   int currentIndex = 0;
   CalendarController? calendarController;
   DateTime? selectedDate;
+  TimeOfDay? pickedTaskTime;
+  DateTime? pickedTaskDate;
   Note? selectedNote;
   Task? selectedTask;
-  int selectedNoteCategory = 0;
+  DateTime now = DateTime.now();
+  int selectedNoteCategory = 0, selectedTaskCategory = 0;
   TabController? noteTabController, calendarTabController, tasksTabController;
   UserProfile? userProfile;
   AdvancedDrawerController advancedDrawerController =
@@ -41,9 +47,33 @@ class AppCubit extends Cubit<AppState> {
     emit(AppChangeBottomNavBarState());
   }
 
+  void refreshTime() {
+    emit(AppChangingState());
+    now = DateTime.now();
+    emit(AppChangeBottomNavBarState());
+  }
+
+  void changeTaskDate({required DateTime date}) {
+    emit(AppChangingState());
+    pickedTaskDate = date;
+    emit(AppChangeBottomNavBarState());
+  }
+
+  void changeTaskTime({required TimeOfDay time}) {
+    emit(AppChangingState());
+    pickedTaskTime = time;
+    emit(AppChangeBottomNavBarState());
+  }
+
   void pickNoteCategory(int index) {
     emit(AppChangingState());
     selectedNoteCategory = index;
+    emit(AppChangeBottomNavBarState());
+  }
+
+  void pickTaskCategory(int index) {
+    emit(AppChangingState());
+    selectedTaskCategory = index;
     emit(AppChangeBottomNavBarState());
   }
 
@@ -81,13 +111,17 @@ class AppCubit extends Cubit<AppState> {
 
   void addTask({required Task task}) {
     emit(AddTaskLoadingState());
-    locator<Dio>()
-        .post(
+    locator<Dio>().post(
       '/task/addTask',
-      data: task.toJson(),
-    )
-        .then((value) {
-      userProfile!.tasks!.add(Task.fromJson(value.data["task"]));
+      data: {
+        ...task.toMap(),
+        "userId": userProfile!.id!,
+      },
+    ).then((value) {
+      if (userProfile!.tasks == null) {
+        userProfile!.tasks = [];
+      }
+      userProfile!.tasks!.add(Task.fromMap(value.data));
       emit(AddTaskSuccessState());
     }).catchError((error) {
       emit(AddTaskErrorState(error.toString()));
@@ -139,8 +173,7 @@ class AppCubit extends Cubit<AppState> {
 
   void updateNote({required Note note}) {
     emit(UpdateNotesLoadingState());
-    locator<Dio>()
-        .put('/note/updateNote', data: note.toJson(), queryParameters: {
+    locator<Dio>().put('/note/editNote', data: note.toJson(), queryParameters: {
       'id': note.id,
     }).then((value) {
       final updatedNote = Note.fromMap(value.data);

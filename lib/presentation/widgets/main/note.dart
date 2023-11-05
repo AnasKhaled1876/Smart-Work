@@ -78,19 +78,18 @@ class _NoteWidgetState extends State<NoteWidget>
                       notes: cubit.userProfile?.notes
                               ?.where(
                                 (element) =>
-                                    !element.isArchived! &&
-                                    !element.isImportant!,
+                                    !element.isArchived && !element.isImportant,
                               )
                               .toList() ??
                           []),
                   NoteList(
                       notes: cubit.userProfile?.notes
-                              ?.where((element) => element.isImportant!)
+                              ?.where((element) => element.isImportant)
                               .toList() ??
                           []),
                   NoteList(
                       notes: cubit.userProfile?.notes
-                              ?.where((element) => element.isArchived!)
+                              ?.where((element) => element.isArchived)
                               .toList() ??
                           []),
                 ],

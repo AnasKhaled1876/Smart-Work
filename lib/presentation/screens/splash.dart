@@ -49,16 +49,18 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AppCubit, AppState>(
-      listener: (context, state) {
+      listener: (context, state) async {
         if (state is LoginSuccessState) {
           Navigator.pushNamed(context, HomeScreen.routeName);
         }
         if (state is LoginErrorState) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(state.error),
+            const SnackBar(
+              content:
+                  Text("Something went wrong, please try logging in again"),
             ),
           );
+          await locator<FlutterSecureStorage>().deleteAll();
           Navigator.pushNamed(context, OnBoardingScreen.routeName);
         }
       },

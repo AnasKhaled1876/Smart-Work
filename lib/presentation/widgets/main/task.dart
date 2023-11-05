@@ -1,4 +1,4 @@
-import 'package:smart_work/presentation/widgets/home/task_tile.dart';
+import 'package:smart_work/presentation/widgets/task/task_tile.dart';
 import 'package:smart_work/cubits/cubit/app_cubit.dart';
 import 'package:smart_work/domain/models/task.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,9 +21,9 @@ class _TaskWidgetState extends State<TaskWidget>
   @override
   void initState() {
     super.initState();
-    AppCubit.get(context).noteTabController =
+    AppCubit.get(context).tasksTabController =
         TabController(length: 3, vsync: this);
-    AppCubit.get(context).noteTabController!.addListener(() {
+    AppCubit.get(context).tasksTabController!.addListener(() {
       setState(() {
         index = AppCubit.get(context).tasksTabController!.index;
       });
@@ -38,7 +38,7 @@ class _TaskWidgetState extends State<TaskWidget>
         AppCubit cubit = AppCubit.get(context);
         return Column(
           children: [
-            TaskTabBar(tabController: cubit.noteTabController!, index: index),
+            TaskTabBar(tabController: cubit.tasksTabController!, index: index),
             SizedBox(
               height: height * 16,
             ),
@@ -72,22 +72,22 @@ class _TaskWidgetState extends State<TaskWidget>
             SizedBox(
               height: height * 450,
               child: TabBarView(
-                controller: cubit.noteTabController,
+                controller: cubit.tasksTabController,
                 children: [
                   TaskList(
                       tasks: cubit.userProfile?.tasks
                               ?.where((element) =>
-                                  !element.isArchived! && !element.isImportant!)
+                                  !element.isArchived && !element.isImportant)
                               .toList() ??
                           []),
                   TaskList(
                       tasks: cubit.userProfile?.tasks
-                              ?.where((element) => element.isImportant!)
+                              ?.where((element) => element.isImportant)
                               .toList() ??
                           []),
                   TaskList(
                       tasks: cubit.userProfile?.tasks
-                              ?.where((element) => element.isArchived!)
+                              ?.where((element) => element.isArchived)
                               .toList() ??
                           []),
                 ],

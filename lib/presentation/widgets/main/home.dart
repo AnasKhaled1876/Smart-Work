@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:smart_work/cubits/cubit/app_cubit.dart';
 import 'package:smart_work/presentation/assets/color_manager.dart';
-import 'package:smart_work/presentation/widgets/home/task_tile.dart';
+import 'package:smart_work/presentation/widgets/task/task_tile.dart';
 import 'package:smart_work/presentation/widgets/home/main_banner.dart';
 import 'package:smart_work/utils/constants/labels.dart';
 

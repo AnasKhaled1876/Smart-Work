@@ -6,9 +6,9 @@ class Note {
   String? title;
   String? description;
   DateTime? finishTime;
-  bool? isFinished;
-  bool? isImportant;
-  bool? isArchived;
+  bool isFinished;
+  bool isImportant;
+  bool isArchived;
   int? categoryId;
   DateTime? createdAt;
   DateTime? updatedAt;
@@ -17,9 +17,9 @@ class Note {
     this.title,
     this.description,
     this.finishTime,
-    this.isFinished,
-    this.isImportant,
-    this.isArchived,
+    this.isFinished = false,
+    this.isImportant = false,
+    this.isArchived = false,
     this.categoryId,
     this.createdAt,
     this.updatedAt,
@@ -74,10 +74,10 @@ class Note {
           map['description'] != null ? map['description'] as String : null,
       finishTime:
           map['finishTime'] != null ? DateTime.parse(map['finishTime']) : null,
-      isFinished: map['isFinished'] != null ? map['isFinished'] as bool : null,
+      isFinished: map['isFinished'] != null ? map['isFinished'] as bool : false,
       isImportant:
-          map['isImportant'] != null ? map['isImportant'] as bool : null,
-      isArchived: map['isArchived'] != null ? map['isArchived'] as bool : null,
+          map['isImportant'] != null ? map['isImportant'] as bool : false,
+      isArchived: map['isArchived'] != null ? map['isArchived'] as bool : false,
       categoryId: map['categoryId'] != null ? map['categoryId'] as int : null,
       createdAt:
           map['createdAt'] != null ? DateTime.parse(map['createdAt']) : null,

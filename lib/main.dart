@@ -12,6 +12,7 @@ import 'package:smart_work/config/themes/main_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:smart_work/presentation/widgets/note/note_details.dart';
+import 'package:smart_work/presentation/widgets/task/new_task.dart';
 import 'package:smart_work/presentation/widgets/task/task_details.dart';
 import 'firebase_options.dart';
 import 'utils/constants/labels.dart';
@@ -23,6 +24,7 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {}
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await initializeDependencies();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -88,6 +90,7 @@ class _MyAppState extends State<MyApp> {
           HomeScreen.routeName: (context) => const HomeScreen(),
           NoteDetailsScreen.routeName: (context) => const NoteDetailsScreen(),
           TaskDetailsScreen.routeName: (context) => const TaskDetailsScreen(),
+          AddTaskScreen.routeName: (context) => const AddTaskScreen(),
         },
         initialRoute: '/splash',
       ),

@@ -1,12 +1,11 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:smart_work/cubits/cubit/app_cubit.dart';
+import 'package:intl/intl.dart';
+import 'package:smart_work/presentation/assets/color_manager.dart';
+import 'package:smart_work/presentation/widgets/linear_progress_bar.dart';
+import 'package:smart_work/utils/constants/images.dart';
+import 'package:smart_work/utils/constants/labels.dart';
 import '../../../domain/models/task.dart';
-import '../../../utils/constants/images.dart';
-import '../../../utils/constants/labels.dart';
-import 'task_details.dart';
 
 class TaskTile extends StatelessWidget {
   const TaskTile({
@@ -17,98 +16,93 @@ class TaskTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<AppCubit, AppState>(
-      listener: (context, state) {},
-      builder: (context, state) {
-        AppCubit cubit = AppCubit.get(context);
-        return Container(
-          height: height * 60,
-          margin: EdgeInsets.only(bottom: height * 22),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              InkWell(
-                onTap: () {
-                  cubit.selectedTask = task;
-                  Navigator.pushNamed(
-                    context,
-                    TaskDetailsScreen.routeName,
-                  );
-                },
-                child: Row(
-                  children: [
-                    Container(
-                      height: height * 65,
-                      padding: EdgeInsets.all(width * 22),
-                      decoration: ShapeDecoration(
-                        color: const Color(0xFFF7F5FF),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(
-                            width * 8,
-                          ),
-                        ),
-                      ),
-                      child: SvgPicture.asset(
-                        categoriesIcons[task.categoryId ??
-                            Random().nextInt(categoriesIcons.length)],
-                        width: width * 24,
-                        height: height * 24,
-                      ),
-                    ),
-                    SizedBox(
-                      width: width * 8,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          task.description ?? "No title",
-                          style: TextStyle(
-                            color: const Color(0xFF242041),
-                            fontSize: textSize * 15,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                        SizedBox(
-                          height: height * 8,
-                        ),
-                        SizedBox(
-                          width: width * 233,
-                          child: Text(
-                            'Lorem ipsum dolor sit amet consectetur...',
-                            style: TextStyle(
-                              color: const Color(0x5E242041),
-                              fontSize: textSize * 11,
-                              fontFamily: 'SFPro',
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
+    return Container(
+      padding: EdgeInsets.symmetric(
+        horizontal: width * 8,
+        vertical: height * 12,
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            padding: EdgeInsets.all(width * 22),
+            decoration: ShapeDecoration(
+              color: const Color(0xFFF7F5FF),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(
+                  width * 8,
                 ),
               ),
-              const Spacer(),
-              InkWell(
-                onTap: () {
-                  cubit.updateTask(
-                    task: task.copyWith(
-                      isImportant: true,
+            ),
+            child: SvgPicture.asset(
+              categoriesIcons[task.categoryId ?? 0],
+              width: width * 24,
+              height: height * 24,
+            ),
+          ),
+          SizedBox(
+            width: width * 8,
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  SvgPicture.asset(
+                    "assets/icons/stopwatch.svg",
+                    width: width * 8,
+                    height: height * 10,
+                  ),
+                  SizedBox(
+                    width: width * 8,
+                  ),
+                  Text(
+                    DateFormat("hh:mm a")
+                        .format(task.finishTime ?? DateTime.now()),
+                    style: TextStyle(
+                      color: const Color(0x5E242041),
+                      fontSize: textSize * 10,
+                      fontWeight: FontWeight.w500,
                     ),
-                  );
-                },
-                child: SvgPicture.asset(
-                  "assets/icons/bookmark.svg",
-                  width: width * 16,
-                  height: height * 16,
+                  ),
+                  // const Spacer(),
+                ],
+              ),
+              SizedBox(
+                height: height * 10,
+              ),
+              Text(
+                task.title ?? "Task Title",
+                style: TextStyle(
+                  color: const Color(0xFF242041),
+                  fontSize: textSize * 14,
+                  fontWeight: FontWeight.w400,
                 ),
-              )
+              ),
+              SizedBox(
+                height: height * 16,
+              ),
+              SizedBox(
+                width: width * 220,
+                child: LinearProgressBar(
+                  progress: 0.5,
+                  borderRadius: width * 3,
+                  height: height * 3,
+                  backgroundColor: const Color(0xffDBDBDB),
+                  progressColor: primaryColor,
+                ),
+              ),
             ],
           ),
-        );
-      },
+          const Spacer(),
+          SvgPicture.asset(
+            "assets/icons/bookmark.svg",
+            width: width * 16,
+            height: height * 16,
+          )
+        ],
+      ),
     );
   }
 }

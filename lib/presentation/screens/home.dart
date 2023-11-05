@@ -7,6 +7,7 @@ import 'package:smart_work/cubits/cubit/app_cubit.dart';
 import 'package:smart_work/presentation/assets/color_manager.dart';
 import 'package:smart_work/presentation/widgets/main/note.dart';
 import 'package:smart_work/presentation/widgets/main/task.dart';
+import 'package:smart_work/presentation/widgets/task/new_task.dart';
 import 'package:smart_work/utils/constants/labels.dart';
 import 'package:smart_work/utils/constants/maps.dart';
 import 'package:smart_work/utils/extensions/string.dart';
@@ -15,7 +16,7 @@ import '../widgets/drawer.dart';
 import '../widgets/home/icon_container.dart';
 import '../widgets/main/calendar.dart';
 import '../widgets/main/home.dart';
-import '../widgets/sheets/add_note.dart';
+import '../widgets/note/add_note.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -163,7 +164,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 );
                                 break;
                               case 4:
-                                cubit.advancedDrawerController.showDrawer();
+                                Navigator.pushNamed(
+                                    context, AddTaskScreen.routeName);
                                 break;
                               default:
                                 cubit.advancedDrawerController.showDrawer();

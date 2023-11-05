@@ -39,7 +39,7 @@ class NoteTile extends StatelessWidget {
                   children: [
                     Container(
                       height: height * 65,
-                      padding: EdgeInsets.all(width * 22),
+                      padding: EdgeInsets.all(width * 18),
                       decoration: ShapeDecoration(
                         color: const Color(0xFFF7F5FF),
                         shape: RoundedRectangleBorder(
@@ -51,8 +51,8 @@ class NoteTile extends StatelessWidget {
                       child: SvgPicture.asset(
                         categoriesIcons[note.categoryId ??
                             Random().nextInt(categoriesIcons.length)],
-                        width: width * 24,
-                        height: height * 24,
+                        width: width * 26,
+                        height: height * 26,
                       ),
                     ),
                     SizedBox(
@@ -95,14 +95,16 @@ class NoteTile extends StatelessWidget {
                 onTap: () {
                   cubit.updateNote(
                     note: note.copyWith(
-                      isImportant: true,
+                      isImportant: !note.isImportant,
                     ),
                   );
                 },
                 child: SvgPicture.asset(
-                  "assets/icons/bookmark.svg",
-                  width: width * 16,
-                  height: height * 16,
+                  note.isImportant
+                      ? "assets/icons/bookmark_filled.svg"
+                      : "assets/icons/bookmark.svg",
+                  width: width * 22,
+                  height: height * 22,
                 ),
               )
             ],

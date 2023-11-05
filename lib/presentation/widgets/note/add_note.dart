@@ -19,7 +19,9 @@ class AddNoteSheet extends StatefulWidget {
 }
 
 class _AddNoteSheetState extends State<AddNoteSheet> {
+
   TextEditingController titleController = TextEditingController();
+  
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
