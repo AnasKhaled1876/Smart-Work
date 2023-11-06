@@ -1,12 +1,14 @@
 import 'dart:io';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:smart_work/cubits/cubit/app_cubit.dart';
 import 'package:smart_work/presentation/assets/color_manager.dart';
+import 'package:smart_work/presentation/widgets/pomodoro/pomodoro_widget.dart';
+import 'package:smart_work/presentation/widgets/pomodoro/stopwatch.dart';
 import 'package:smart_work/presentation/widgets/pomodoro/timer.dart';
-
+import 'package:smart_work/utils/constants/maps.dart';
 import '../../utils/constants/labels.dart';
 
 class PomodoroScreen extends StatefulWidget {
@@ -18,71 +20,140 @@ class PomodoroScreen extends StatefulWidget {
 }
 
 class _PomodoroScreenState extends State<PomodoroScreen> {
+  Widget getPomodoroWidget() {
+    switch (AppCubit.get(context).selectedPomodoroMode) {
+      case 0:
+        return const TimerWidget();
+      case 1:
+        return const PomodoroWidget();
+      case 2:
+        return const StopwatchWidget();
+      default:
+        return const TimerWidget();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: primaryColor,
-      appBar: AppBar(
-        toolbarHeight: 0,
-        elevation: 0,
-        systemOverlayStyle: SystemUiOverlayStyle.light.copyWith(
-          statusBarColor: primaryColor,
-          statusBarIconBrightness:
-              Platform.isIOS ? Brightness.dark : Brightness.light,
-          statusBarBrightness: Brightness.light,
-          systemNavigationBarColor: primaryColor,
-          systemNavigationBarIconBrightness: Brightness.light,
-        ),
-      ),
-      body: SafeArea(
-        child: Stack(
-          children: [
-            Image.asset(
-              'assets/images/pomodoro_circles.png',
-              fit: BoxFit.cover,
+    return BlocConsumer<AppCubit, AppState>(
+      listener: (context, state) {},
+      builder: (context, state) {
+        AppCubit cubit = AppCubit.get(context);
+        return Scaffold(
+          backgroundColor: primaryColor,
+          appBar: AppBar(
+            toolbarHeight: 0,
+            elevation: 0,
+            systemOverlayStyle: SystemUiOverlayStyle.light.copyWith(
+              statusBarColor: primaryColor,
+              statusBarIconBrightness:
+                  Platform.isIOS ? Brightness.dark : Brightness.light,
+              statusBarBrightness: Brightness.light,
+              systemNavigationBarColor: primaryColor,
+              systemNavigationBarIconBrightness: Brightness.light,
             ),
-            Padding(
-              padding: EdgeInsets.only(
-                top: width * 70,
-                left: width * 20,
-                right: width * 20,
-              ),
-              child: Column(
-                children: [
-                  const Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          ),
+          body: SafeArea(
+            child: Stack(
+              children: [
+                AnimatedSwitcher(
+                  transitionBuilder: (child, animation) => SlideTransition(
+                    position: Tween<Offset>(
+                      begin: const Offset(0, -0.5),
+                      end: Offset.zero,
+                    ).animate(animation),
+                    child: child,
+                  ),
+                  duration: const Duration(milliseconds: 300),
+                  child: Image.asset(
+                    selectedModeImage[cubit.selectedPomodoroMode]!,
+                    key: ValueKey<int>(cubit.selectedPomodoroMode),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(
+                    top: width * 70,
+                    left: width * 20,
+                    right: width * 20,
+                  ),
+                  child: Column(
                     children: [
-                      ModeTile(
-                        //TODO: Replace with sand clock
-                        icon: 'assets/icons/pomodoro.svg',
-                        title: 'Timer',
-                        isSelected: true,
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              cubit.changePomodoroMode(index: 0);
+                            },
+                            child: ModeTile(
+                              //TODO: Replace with sand clock
+                              icon: 'assets/icons/sand_clock.svg',
+                              title: 'Timer',
+                              isSelected: cubit.selectedPomodoroMode == 0,
+                            ),
+                          ),
+                          InkWell(
+                            onTap: () {
+                              cubit.changePomodoroMode(index: 1);
+                            },
+                            child: ModeTile(
+                              icon: 'assets/icons/pomodoro.svg',
+                              title: 'Pomodoro',
+                              isSelected: cubit.selectedPomodoroMode == 1,
+                            ),
+                          ),
+                          InkWell(
+                            onTap: () {
+                              cubit.changePomodoroMode(index: 2);
+                            },
+                            child: ModeTile(
+                              icon: 'assets/icons/stopwatch.svg',
+                              title: 'Stop Watch',
+                              isSelected: cubit.selectedPomodoroMode == 2,
+                            ),
+                          )
+                        ],
                       ),
-                      ModeTile(
-                        icon: 'assets/icons/pomodoro.svg',
-                        title: 'Pomodoro',
-                        isSelected: false,
+                      Expanded(
+                        child: AnimatedSwitcher(
+                          duration: const Duration(milliseconds: 300),
+                          child: getPomodoroWidget(),
+                        ),
                       ),
-                      ModeTile(
-                        icon: 'assets/icons/stopwatch.svg',
-                        title: 'Stop Watch',
-                        isSelected: false,
-                      )
+                      InkWell(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: Container(
+                          padding: EdgeInsets.all(width * 10),
+                          decoration: ShapeDecoration(
+                            color: const Color(0x0CC1B2FF),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(
+                                width * 8,
+                              ),
+                            ),
+                          ),
+                          child: SvgPicture.asset(
+                            "assets/icons/arrow_down.svg",
+                            height: width * 27,
+                            width: width * 27,
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: width * 20,
+                      ),
                     ],
                   ),
-                  Expanded(
-                    child: AnimatedSwitcher(
-                      duration: const Duration(milliseconds: 300),
-                      child: TimerWidget(),
-                    ),
-                  ),
-                ],
-              ),
-            )
-          ],
-        ),
-      ),
+                )
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }

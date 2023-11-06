@@ -14,22 +14,12 @@ class TimerWidget extends StatelessWidget {
         SizedBox(
           height: height * 60,
         ),
-        Expanded(
-          //adjust the theme of the timepicker and make the text color white
-
-          child: CupertinoTheme(
-            data: const CupertinoThemeData(
-              textTheme: CupertinoTextThemeData(
-                pickerTextStyle: TextStyle(color: Colors.white),
-              ),
-            ),
-            child: CupertinoPicker(
-              itemExtent: 100,
-              onSelectedItemChanged: (int value) {},
-              children: [
-                
-              ],
-            ),
+        Text(
+          '00:00',
+          style: TextStyle(
+            fontSize: textSize * 60,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
           ),
         ),
       ],

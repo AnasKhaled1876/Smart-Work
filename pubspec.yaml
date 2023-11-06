@@ -35,6 +35,8 @@ dependencies:
   firebase_core: ^2.21.0
   flutter_local_notifications: ^16.1.0
   firebase_messaging: ^14.7.3
+  syncfusion_flutter_sliders: ^23.1.43
+  syncfusion_flutter_core: ^23.1.43
 
 dev_dependencies:
   flutter_test:

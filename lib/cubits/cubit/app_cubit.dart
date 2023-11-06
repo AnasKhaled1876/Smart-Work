@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
@@ -22,7 +23,9 @@ class AppCubit extends Cubit<AppState> {
 
   int currentIndex = 0;
   CalendarController? calendarController;
+  Timer? pomodoroTimer;
   DateTime? selectedDate;
+  double pomodoroTime = 10, shortBreakTime = 10, longBreakTime = 10;
   TimeOfDay? pickedTaskTime;
   DateTime? pickedTaskDate;
   int selectedPomodoroMode = 0;
@@ -39,6 +42,34 @@ class AppCubit extends Cubit<AppState> {
     emit(AppChangingState());
     calendarController!.selectedDate = date;
     calendarController!.displayDate = date;
+    emit(AppChangeBottomNavBarState());
+  }
+
+  void changePomodoroTime(
+      {double? pomodoro, double? shortBreakTime, double? longBreakTime}) {
+    emit(AppChangingState());
+    pomodoroTime = pomodoro ?? pomodoroTime;
+    shortBreakTime = shortBreakTime ?? shortBreakTime;
+    longBreakTime = longBreakTime ?? longBreakTime;
+    emit(AppChangeBottomNavBarState());
+  }
+
+  void changePomodoroMode({required int index}) {
+    emit(AppChangingState());
+    selectedPomodoroMode = index;
+    emit(AppChangeBottomNavBarState());
+  }
+
+  void startTimer() {
+    emit(AppChangingState());
+    pomodoroTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (pomodoroTime > 0) {
+        pomodoroTime--;
+      } else {
+        pomodoroTimer!.cancel();
+        pomodoroTimer = null;
+      }
+    });
     emit(AppChangeBottomNavBarState());
   }
 

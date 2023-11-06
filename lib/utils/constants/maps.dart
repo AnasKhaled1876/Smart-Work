@@ -64,3 +64,9 @@ Map<int, Widget> sideButton = {
     width: width * 20,
   ),
 };
+
+Map<int, String> selectedModeImage = {
+  0: "assets/images/timer_selected.png",
+  1: "assets/images/pomodoro_selected.png",
+  2: "assets/images/stopwatch_selected.png",
+};
