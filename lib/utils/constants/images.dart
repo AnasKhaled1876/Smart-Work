@@ -32,3 +32,10 @@ const List<String> categoriesIcons = [
   "assets/icons/types/sport.svg",
   "assets/icons/types/cooking.svg",
 ];
+
+const List<String> notificationsTypes = [
+  "assets/icons/check.svg",
+  "assets/icons/stopwatch.svg",
+  "assets/icons/pomodoro.svg",
+  "assets/icons/sand_clock.svg",
+];

@@ -24,7 +24,7 @@ class _RateUsScreenState extends State<RateUsScreen> {
     return BlocConsumer<AppCubit, AppState>(
       listener: (context, state) {},
       builder: (context, state) {
-        AppCubit cubit = AppCubit.get(context);
+        // AppCubit cubit = AppCubit.get(context);
         return Form(
           key: _formKey,
           child: Scaffold(

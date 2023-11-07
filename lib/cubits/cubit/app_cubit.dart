@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
+import 'package:smart_work/domain/models/notification.dart';
 import 'package:smart_work/injection.dart';
 
 import '../../domain/models/note.dart';
@@ -24,6 +25,8 @@ class AppCubit extends Cubit<AppState> {
   int currentIndex = 0;
   CalendarController? calendarController;
   Timer? pomodoroTimer;
+  List<SmartNotification>? notifications;
+  List<List<SmartNotification>>? groupedByDateNotifications; 
   DateTime? selectedDate;
   double pomodoroTime = 10, shortBreakTime = 10, longBreakTime = 10;
   TimeOfDay? pickedTaskTime;
@@ -43,6 +46,82 @@ class AppCubit extends Cubit<AppState> {
     calendarController!.selectedDate = date;
     calendarController!.displayDate = date;
     emit(AppChangeBottomNavBarState());
+  }
+
+  void getNotifications2() {
+    //divide notifications into today, yesterday, and group the rest by date
+    //then sort the list by date
+    //then add the today and yesterday to the top of the list
+    //then add the rest of the list to the bottom of the list
+  }
+
+  void getNotifications() {
+    emit(AppChangingState());
+
+    // Get all notifications
+    final allNotifications = notifications ?? [];
+
+    // Get today's date at midnight
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+
+    // Get yesterday's date at midnight
+    final yesterday = today.subtract(Duration(days: 1));
+
+    // Group notifications by date
+    final groupedNotifications = <DateTime, List<SmartNotification>>{};
+    for (final notification in allNotifications) {
+      final date = DateTime(notification.timestamp.year,
+          notification.timestamp.month, notification.timestamp.day);
+      if (!groupedNotifications.containsKey(date)) {
+        groupedNotifications[date] = [];
+      }
+      groupedNotifications[date]!.add(notification);
+    }
+
+    // Sort notifications by date
+    final sortedNotifications = groupedNotifications.entries.toList()
+      ..sort((a, b) => b.key.compareTo(a.key));
+
+    // Add today's and yesterday's notifications to the top of the list
+    final todayNotifications =
+        sortedNotifications.firstWhere((entry) => entry.key == today).value;
+    final yesterdayNotifications =
+        sortedNotifications.firstWhere((entry) => entry.key == yesterday).value;
+    final otherNotifications = sortedNotifications
+        .where((entry) => entry.key != today && entry.key != yesterday)
+        .toList();
+    final groupedByDateNotifications = [
+      if (todayNotifications.isNotEmpty)
+        [
+          SmartNotification(
+              title: 'Today', message: '', type: '', timestamp: DateTime.now()),
+          ...todayNotifications
+        ],
+      if (yesterdayNotifications.isNotEmpty)
+        [
+          SmartNotification(
+              title: 'Yesterday',
+              message: '',
+              type: '',
+              timestamp: DateTime.now().subtract(const Duration(days: 1))),
+          ...yesterdayNotifications
+        ],
+      ...otherNotifications.map((entry) => [
+            SmartNotification(
+                title: '${entry.key.day}/${entry.key.month}/${entry.key.year}',
+                message: '',
+                type: '',
+                timestamp: entry.key),
+            ...entry.value
+          ]),
+    ];
+
+    // Set notifications
+    this.groupedByDateNotifications = groupedByDateNotifications;
+
+    
+    emit(AppNotificationsLoaded());
   }
 
   void changePomodoroTime(

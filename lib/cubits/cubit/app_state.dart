@@ -9,6 +9,8 @@ final class AppChangeBottomNavBarState extends AppState {}
 
 final class AppChangingState extends AppState {}
 
+final class AppNotificationsLoaded extends AppState {}
+
 final class RegisterUserLoadingState extends AppState {}
 
 final class RegisterUserSuccessState extends AppState {}
