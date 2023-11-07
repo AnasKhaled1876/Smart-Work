@@ -70,3 +70,11 @@ Map<int, String> selectedModeImage = {
   1: "assets/images/pomodoro_selected.png",
   2: "assets/images/stopwatch_selected.png",
 };
+
+
+
+Map<int, String> settingsTileOnTap = {
+  0: "assets/images/timer_selected.png",
+  1: "assets/images/pomodoro_selected.png",
+  2: "assets/images/stopwatch_selected.png",
+};

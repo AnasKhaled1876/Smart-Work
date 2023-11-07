@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:smart_work/cubits/cubit/app_cubit.dart';
 import 'package:smart_work/presentation/assets/color_manager.dart';
+import 'package:smart_work/presentation/screens/about/notifications.dart';
 import 'package:smart_work/presentation/widgets/main/note.dart';
 import 'package:smart_work/presentation/widgets/main/task.dart';
 import 'package:smart_work/presentation/widgets/task/new_task.dart';
@@ -138,7 +139,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           onTap: () {
                             switch (cubit.currentIndex) {
                               case 0:
-                                cubit.advancedDrawerController.showDrawer();
+                                Navigator.pushNamed(
+                                    context, NotificationsScreen.routeName);
                                 break;
                               case 1:
                                 showDatePicker(

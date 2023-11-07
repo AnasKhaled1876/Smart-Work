@@ -5,6 +5,7 @@ import 'package:smart_work/cubits/cubit/app_cubit.dart';
 
 import '../../utils/constants/images.dart';
 import '../../utils/constants/labels.dart';
+import '../../utils/constants/routes.dart';
 import '../assets/color_manager.dart';
 
 class AdvancedDrawerWidget extends StatelessWidget {
@@ -120,30 +121,34 @@ class AdvancedDrawerWidget extends StatelessWidget {
                       padding: EdgeInsets.zero,
                       itemCount: 4,
                       shrinkWrap: true,
-                      itemBuilder: (context, index) => Container(
-                        margin: EdgeInsets.only(
-                          bottom: height * 25,
-                        ),
-                        child: Row(
-                          children: [
-                            SvgPicture.asset(
-                              aboutIcons[index],
-                              width: width * 20,
-                              height: height * 20,
-                            ),
-                            SizedBox(
-                              width: width * 16,
-                            ),
-                            Text(
-                              aboutLabels[index],
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: textSize * 16,
-                                fontFamily: 'SFPro',
-                                fontWeight: FontWeight.w400,
+                      itemBuilder: (context, index) => InkWell(
+                        onTap: () =>
+                            Navigator.pushNamed(context, aboutRoutes[index]),
+                        child: Container(
+                          margin: EdgeInsets.only(
+                            bottom: height * 25,
+                          ),
+                          child: Row(
+                            children: [
+                              SvgPicture.asset(
+                                aboutIcons[index],
+                                width: width * 20,
+                                height: height * 20,
                               ),
-                            ),
-                          ],
+                              SizedBox(
+                                width: width * 16,
+                              ),
+                              Text(
+                                aboutLabels[index],
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: textSize * 16,
+                                  fontFamily: 'SFPro',
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),

@@ -42,6 +42,12 @@ Map<int, String> titleMap = {
   4: "Tasks",
 };
 
+List<String> settingsTitles = [
+  "Personal Settings",
+  "Notifications",
+  "Language",
+];
+
 class WelcomeRow extends StatelessWidget {
   const WelcomeRow({
     super.key,
