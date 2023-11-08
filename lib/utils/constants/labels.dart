@@ -64,7 +64,7 @@ class WelcomeRow extends StatelessWidget {
       children: [
         Text(
           'Welcome',
-          textAlign: TextAlign.center,
+          textAlign: TextAlign.start,
           style: TextStyle(
             color: const Color(0xFFCCCCCC),
             fontSize: textSize * 10,
@@ -74,6 +74,7 @@ class WelcomeRow extends StatelessWidget {
         SizedBox(height: height * 2),
         Text(
           'Mr. $name',
+          textAlign: TextAlign.start,
           style: TextStyle(
             color: const Color(0xFF242041),
             fontSize: textSize * 16,

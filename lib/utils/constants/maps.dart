@@ -3,12 +3,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:smart_work/presentation/assets/color_manager.dart';
 import 'package:smart_work/utils/constants/labels.dart';
 
-// Map<int, String> titleMap = {
-//   1: "Calendar",
-//   3: "Notes",
-//   4: "Tasks",
-// };
-
 Map<int, Widget> sideButton = {
   0: SvgPicture.asset(
     'assets/icons/bell.svg',

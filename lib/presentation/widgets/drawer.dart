@@ -122,6 +122,7 @@ class AdvancedDrawerWidget extends StatelessWidget {
                       itemCount: 4,
                       shrinkWrap: true,
                       itemBuilder: (context, index) => InkWell(
+                        splashColor: Colors.transparent,
                         onTap: () =>
                             Navigator.pushNamed(context, aboutRoutes[index]),
                         child: Container(

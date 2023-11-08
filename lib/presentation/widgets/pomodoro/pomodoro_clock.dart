@@ -8,7 +8,9 @@ import '../../assets/color_manager.dart';
 class PomodoroClock extends StatelessWidget {
   const PomodoroClock({
     super.key,
+    required this.stopWatch,
   });
+  final bool stopWatch;
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +63,9 @@ class PomodoroClock extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    '00\t:\t00',
+                    stopWatch
+                        ? "${cubit.stopwatchTime.inMinutes.toString().padLeft(2, '0')}:${(cubit.stopwatchTime.inSeconds % 60).toString().padLeft(2, '0')}:${(cubit.stopwatchTime.inMilliseconds % 1000 ~/ 10).toString().padLeft(2, '0')}"
+                        : '00\t:\t00\t:\t00',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: secondaryColor,
@@ -70,36 +74,79 @@ class PomodoroClock extends StatelessWidget {
                       fontWeight: FontWeight.w500,
                     ),
                   ),
-                  SizedBox(
-                    height: height * 6,
-                  ),
-                  Text(
-                    'Short Break',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: textSize * 13,
-                      fontFamily: 'SFPro',
-                      fontWeight: FontWeight.w600,
+                  if (!stopWatch) ...[
+                    SizedBox(
+                      height: height * 6,
                     ),
-                  )
+                    Text(
+                      'Short Break',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: textSize * 13,
+                        fontFamily: 'SFPro',
+                        fontWeight: FontWeight.w600,
+                      ),
+                    )
+                  ],
                 ],
               ),
             )),
+            cubit.stopwatchTimer != null && cubit.stopwatchTimer!.isActive
+                ? Positioned.fill(
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: SizedBox(
+                        width: width * 165,
+                        height: width * 165,
+                        child: CircularProgressIndicator(
+                          strokeWidth: width * 2,
+                          color: secondaryColor,
+                          value: stopWatch ? null : cubit.pomodoroTime / 60,
+                        ),
+                      ),
+                    ),
+                  )
+                : const SizedBox(),
             Positioned.fill(
               child: Align(
-                alignment: Alignment.center,
-                child: SizedBox(
-                  width: width * 280,
-                  height: width * 280,
-                  child: CircularProgressIndicator(
-                    strokeWidth: width * 2,
-                    color: secondaryColor,
-                    value: cubit.pomodoroTime / 60,
+                alignment: const Alignment(0, 1.1),
+                child: GestureDetector(
+                  onTap: () {
+                    if (cubit.stopwatchTimer != null &&
+                        cubit.stopwatchTimer!.isActive) {
+                      cubit.stopwatchTimer?.cancel();
+                    } else {
+                      cubit.startStopWatch();
+                    }
+                  },
+                  child: Container(
+                    padding: EdgeInsets.all(width * 10),
+                    decoration: const ShapeDecoration(
+                      color: Color(0xFFC1B2FF),
+                      shape: OvalBorder(),
+                      shadows: [
+                        BoxShadow(
+                          color: Color(0x26000000),
+                          blurRadius: 7,
+                          offset: Offset(0, 0.70),
+                          spreadRadius: 0,
+                        )
+                      ],
+                    ),
+                    child: Icon(
+                      cubit.stopwatchTimer != null &&
+                              cubit.stopwatchTimer!.isActive
+                          ? Icons.pause
+                          : Icons.play_arrow,
+                      color: primaryColor,
+                      size: width * 24,
+                    ),
                   ),
                 ),
               ),
             ),
+            
           ],
         );
       },

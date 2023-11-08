@@ -80,7 +80,7 @@ class _PomodoroScreenState extends State<PomodoroScreen> {
                   child: Column(
                     children: [
                       Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           InkWell(
@@ -192,7 +192,28 @@ class ModeTile extends StatelessWidget {
             fontFamily: 'SFPro',
             fontWeight: FontWeight.w400,
           ),
-        )
+        ),
+        if (isSelected) ...[
+          SizedBox(
+            height: width * 10,
+          ),
+          Container(
+            width: width * 4,
+            height: width * 4,
+            decoration: const ShapeDecoration(
+              color: Color(0xFFC1B2FF),
+              shape: OvalBorder(),
+              shadows: [
+                BoxShadow(
+                  color: Color(0x7FC1B2FF),
+                  blurRadius: 10,
+                  offset: Offset(0, 0),
+                  spreadRadius: 0,
+                )
+              ],
+            ),
+          )
+        ],
       ],
     );
   }

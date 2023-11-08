@@ -24,13 +24,14 @@ class AppCubit extends Cubit<AppState> {
 
   int currentIndex = 0;
   CalendarController? calendarController;
-  Timer? pomodoroTimer;
+  Timer? pomodoroTimer, stopwatchTimer;
   List<SmartNotification>? notifications;
-  List<List<SmartNotification>>? groupedByDateNotifications; 
+  List<List<SmartNotification>>? groupedByDateNotifications;
   DateTime? selectedDate;
   double pomodoroTime = 10, shortBreakTime = 10, longBreakTime = 10;
   TimeOfDay? pickedTaskTime;
   DateTime? pickedTaskDate;
+  Duration stopwatchTime = Duration.zero;
   int selectedPomodoroMode = 0;
   Note? selectedNote;
   Task? selectedTask;
@@ -46,13 +47,6 @@ class AppCubit extends Cubit<AppState> {
     calendarController!.selectedDate = date;
     calendarController!.displayDate = date;
     emit(AppChangeBottomNavBarState());
-  }
-
-  void getNotifications2() {
-    //divide notifications into today, yesterday, and group the rest by date
-    //then sort the list by date
-    //then add the today and yesterday to the top of the list
-    //then add the rest of the list to the bottom of the list
   }
 
   void getNotifications() {
@@ -120,7 +114,6 @@ class AppCubit extends Cubit<AppState> {
     // Set notifications
     this.groupedByDateNotifications = groupedByDateNotifications;
 
-    
     emit(AppNotificationsLoaded());
   }
 
@@ -139,7 +132,7 @@ class AppCubit extends Cubit<AppState> {
     emit(AppChangeBottomNavBarState());
   }
 
-  void startTimer() {
+  void startPomodoroTimer() {
     emit(AppChangingState());
     pomodoroTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (pomodoroTime > 0) {
@@ -149,6 +142,24 @@ class AppCubit extends Cubit<AppState> {
         pomodoroTimer = null;
       }
     });
+    emit(AppChangeBottomNavBarState());
+  }
+
+  void startStopWatch() {
+    emit(AppChangingState());
+    stopwatchTimer = Timer.periodic(const Duration(milliseconds: 5), (timer) {
+      emit(AppChangeBottomNavBarState());
+      emit(AppChangingState());
+      stopwatchTime = stopwatchTime + const Duration(milliseconds: 5);
+      emit(AppChangeBottomNavBarState());
+    });
+  }
+
+  void resetStopWatch() {
+    emit(AppChangingState());
+    stopwatchTimer!.cancel();
+    stopwatchTimer = null;
+    stopwatchTime = Duration.zero;
     emit(AppChangeBottomNavBarState());
   }
 

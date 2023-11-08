@@ -39,8 +39,12 @@ class _PomodoroWidgetState extends State<PomodoroWidget>
         return AnimatedSwitcher(
           duration: const Duration(milliseconds: 500),
           child: AppCubit.get(context).pomodoroTimer != null
-              ? const PomodoroClock()
-              : const PickPomodoroTime(),
+              ? const PomodoroClock(
+                  stopWatch: false,
+                )
+              : const PickPomodoroTime(
+                  stopWatch: false,
+                ),
         );
       },
     );

@@ -1,26 +1,26 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:smart_work/config/themes/main_theme.dart';
 import 'package:smart_work/cubits/cubit/app_cubit.dart';
 import 'package:smart_work/injection.dart';
 import 'package:smart_work/presentation/screens/about/help.dart';
 import 'package:smart_work/presentation/screens/about/notifications.dart';
 import 'package:smart_work/presentation/screens/about/rate_us.dart';
 import 'package:smart_work/presentation/screens/about/settings.dart';
+import 'package:smart_work/presentation/screens/home.dart';
+import 'package:smart_work/presentation/screens/on_boarding.dart';
 import 'package:smart_work/presentation/screens/pomodoro.dart';
 import 'package:smart_work/presentation/screens/settings/personal_settings.dart';
 import 'package:smart_work/presentation/screens/sign_up.dart';
-import 'package:smart_work/presentation/screens/home.dart';
-import 'package:smart_work/presentation/screens/on_boarding.dart';
 import 'package:smart_work/presentation/screens/splash.dart';
-import 'package:smart_work/config/themes/main_theme.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:smart_work/presentation/widgets/note/note_details.dart';
 import 'package:smart_work/presentation/widgets/task/new_task.dart';
 import 'package:smart_work/presentation/widgets/task/task_details.dart';
+
 import 'firebase_options.dart';
 import 'utils/constants/labels.dart';
 
@@ -32,14 +32,12 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Hive.initFlutter();
-  var box = await Hive.openBox('testBox');
-  await box.put('name', 'David');
-  print(box.get('name'));
+  // await Hive.initFlutter();
+  // var box = await Hive.openBox('testBox');
+  // await box.put('name', 'David');
+  // print(box.get('name'));
   await initializeDependencies();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
   const AndroidInitializationSettings initializationSettingsAndroid =
@@ -70,12 +68,8 @@ class MyApp extends StatefulWidget {
   State<MyApp> createState() => _MyAppState();
 }
 
-class _MyAppState extends State<MyApp> {
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
+class _MyAppState extends State<MyApp>{
+  
   @override
   Widget build(BuildContext context) {
     double baseWidth = 393;

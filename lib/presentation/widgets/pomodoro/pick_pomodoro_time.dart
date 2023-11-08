@@ -6,7 +6,8 @@ import 'pomodoro_widget.dart';
 import 'start_clock.dart';
 
 class PickPomodoroTime extends StatefulWidget {
-  const PickPomodoroTime({super.key});
+  const PickPomodoroTime({super.key, required this.stopWatch});
+  final bool stopWatch;
 
   @override
   State<PickPomodoroTime> createState() => _PickPomodoroTimeState();
@@ -19,49 +20,51 @@ class _PickPomodoroTimeState extends State<PickPomodoroTime> {
       listener: (context, state) {},
       builder: (context, state) {
         AppCubit cubit = AppCubit.get(context);
-        return Column(
-          children: [
-            SizedBox(
-              height: width * 60,
-            ),
-            TimeSlider(
-                title: "Pomodoro",
+        return SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(
+                height: width * 60,
+              ),
+              TimeSlider(
+                  title: "Pomodoro",
+                  onChanged: (value) {
+                    cubit.changePomodoroTime(pomodoro: value);
+                  },
+                  value: cubit.pomodoroTime),
+              SizedBox(
+                height: height * 20,
+              ),
+              TimeSlider(
+                  title: "Long Break",
+                  onChanged: (value) {
+                    cubit.changePomodoroTime(longBreakTime: value);
+                  },
+                  value: cubit.longBreakTime),
+              SizedBox(
+                height: height * 20,
+              ),
+              TimeSlider(
+                title: "Short Break",
                 onChanged: (value) {
-                  cubit.changePomodoroTime(pomodoro: value);
+                  cubit.changePomodoroTime(shortBreakTime: value);
                 },
-                value: cubit.pomodoroTime),
-            SizedBox(
-              height: height * 20,
-            ),
-            TimeSlider(
-                title: "Long Break",
-                onChanged: (value) {
-                  cubit.changePomodoroTime(longBreakTime: value);
+                value: cubit.shortBreakTime,
+              ),
+              SizedBox(
+                height: width * 20,
+              ),
+              GestureDetector(
+                onTap: () {
+                  cubit.startPomodoroTimer();
                 },
-                value: cubit.longBreakTime),
-            SizedBox(
-              height: height * 20,
-            ),
-            TimeSlider(
-              title: "Short Break",
-              onChanged: (value) {
-                cubit.changePomodoroTime(shortBreakTime: value);
-              },
-              value: cubit.shortBreakTime,
-            ),
-            SizedBox(
-              height: width * 20,
-            ),
-            GestureDetector(
-              onTap: () {
-                cubit.startTimer();
-              },
-              child: const StartClock(),
-            ),
-            SizedBox(
-              height: width * 40,
-            ),
-          ],
+                child: const StartClock(stopwatch: false,),
+              ),
+              SizedBox(
+                height: width * 40,
+              ),
+            ],
+          ),
         );
       },
     );

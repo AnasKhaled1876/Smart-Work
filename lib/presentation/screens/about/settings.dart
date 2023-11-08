@@ -125,6 +125,7 @@ class SettingsTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      splashColor: Colors.transparent,
       onTap: () => onTap(),
       child: Container(
         margin: EdgeInsets.only(

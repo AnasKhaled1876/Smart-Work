@@ -1,6 +1,6 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_analog_clock/flutter_analog_clock.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:smart_work/cubits/cubit/app_cubit.dart';
@@ -90,11 +90,90 @@ class _MainBannerState extends State<MainBanner> {
               const Spacer(),
               //create a white wall clock with arrows that move according to the time
 
-              Image.asset(
-                "assets/images/clock.png",
-                height: height * 82,
-                width: width * 82,
-              ),
+              SizedBox(
+                height: height * 88,
+                child: AnalogClock(
+                  dateTime: DateTime.now(),
+                  isKeepTime: true,
+                  dialColor: Colors.white,
+                  dialBorderColor: Colors.black,
+                  dialBorderWidthFactor: 0.04,
+                  markingColor: Colors.black,
+                  markingRadiusFactor: 0,
+                  markingWidthFactor: 1.0,
+                  hourNumberColor: Colors.black,
+                  hourNumbers: const [
+                    '',
+                    '',
+                    '',
+                    '',
+                    '',
+                    '',
+                    '',
+                    '',
+                    '',
+                    '',
+                    '',
+                    ''
+                  ],
+                  hourNumberSizeFactor: 1.0,
+                  hourNumberRadiusFactor: 1.0,
+                  hourHandColor: Colors.black,
+                  hourHandWidthFactor: 1.0,
+                  hourHandLengthFactor: 1.0,
+                  minuteHandColor: Colors.black,
+                  minuteHandWidthFactor: 1.4,
+                  minuteHandLengthFactor: 1.0,
+                  secondHandColor: Colors.black,
+                  secondHandWidthFactor: 0,
+                  secondHandLengthFactor: 1.0,
+                  centerPointColor: Colors.black,
+                  centerPointWidthFactor: 1.0,
+                ),
+              )
+
+              // Stack(
+              //   children: [
+              //     Image.asset(
+              //       "assets/images/clock.png",
+              //       height: height * 82,
+              //       width: width * 82,
+              //     ),
+              //     Positioned.fill(
+              //         child: Align(
+              //       alignment: Alignment.center,
+              //       child: Transform.rotate(
+              //         origin: const Offset(0, 0.5),
+              //         angle: (2 * pi / 12) * cubit.now.hour +
+              //             (2 * pi / 720) * cubit.now.minute,
+              //         child: Container(
+              //           height: height * 30,
+              //           width: width * 2,
+              //           decoration: BoxDecoration(
+              //             color: Colors.black,
+              //             borderRadius: BorderRadius.circular(width * 2),
+              //           ),
+              //         ),
+              //       ),
+              //     )),
+              //     Positioned.fill(
+              //       child: Align(
+              //         alignment: const Alignment(-0.2, -0.25),
+              //         child: Transform.rotate(
+              //           angle: (2 * pi / 60) * cubit.now.minute,
+              //           child: Container(
+              //             height: height * 40,
+              //             width: width * 2,
+              //             decoration: BoxDecoration(
+              //               color: Colors.black,
+              //               borderRadius: BorderRadius.circular(width * 2),
+              //             ),
+              //           ),
+              //         ),
+              //       ),
+              //     ),
+              //   ],
+              // ),
             ],
           ),
         );
