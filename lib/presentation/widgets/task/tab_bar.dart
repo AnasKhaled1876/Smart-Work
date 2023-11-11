@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:localization/localization.dart';
 import 'package:smart_work/presentation/assets/color_manager.dart';
 import 'package:smart_work/utils/constants/labels.dart';
 
@@ -65,7 +66,7 @@ class _TaskTabBarState extends State<TaskTabBar> {
                     width: width * 4,
                   ),
                   Text(
-                    'All',
+                    'All'.i18n(),
                     style: TextStyle(
                       color: widget.index == 0
                           ? const Color(0xFFC1B2FF)
@@ -107,7 +108,7 @@ class _TaskTabBarState extends State<TaskTabBar> {
                     width: width * 4,
                   ),
                   Text(
-                    'Important',
+                    'Important'.i18n(),
                     style: TextStyle(
                       color: widget.index == 1
                           ? const Color(0xFFC1B2FF)
@@ -149,7 +150,7 @@ class _TaskTabBarState extends State<TaskTabBar> {
                     width: width * 4,
                   ),
                   Text(
-                    'Archived',
+                    'Archived'.i18n(),
                     style: TextStyle(
                       color: widget.index == 2
                           ? const Color(0xFFC1B2FF)

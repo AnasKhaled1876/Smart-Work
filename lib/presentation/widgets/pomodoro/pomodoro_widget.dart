@@ -1,3 +1,4 @@
+import 'package:localization/localization.dart';
 import 'package:smart_work/presentation/widgets/pomodoro/pick_pomodoro_time.dart';
 import 'package:smart_work/presentation/assets/color_manager.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
@@ -84,7 +85,7 @@ class TimeSlider extends StatelessWidget {
                 ),
               ),
               Text(
-                'Min',
+                'Min'.i18n(),
                 textAlign: TextAlign.right,
                 style: TextStyle(
                   color: const Color(0xFFC1B2FF),

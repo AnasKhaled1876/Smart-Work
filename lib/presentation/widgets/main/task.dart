@@ -1,3 +1,4 @@
+import 'package:localization/localization.dart';
 import 'package:smart_work/presentation/widgets/task/task_tile.dart';
 import 'package:smart_work/cubits/cubit/app_cubit.dart';
 import 'package:smart_work/domain/models/task.dart';
@@ -48,7 +49,7 @@ class _TaskWidgetState extends State<TaskWidget>
                 filled: true,
                 contentPadding: EdgeInsets.symmetric(
                     horizontal: width * 10, vertical: height * 14),
-                hintText: 'Search',
+                hintText: 'Search'.i18n(),
                 hintStyle: TextStyle(
                   color: primaryColor,
                   fontSize: textSize * 14,

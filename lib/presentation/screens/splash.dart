@@ -69,16 +69,17 @@ class _SplashScreenState extends State<SplashScreen> {
           extendBodyBehindAppBar: true,
           backgroundColor: primaryColor,
           appBar: AppBar(
+            backgroundColor: primaryColor,
             toolbarHeight: 0.0,
             toolbarOpacity: 0.0,
             elevation: 0,
-            systemOverlayStyle: SystemUiOverlayStyle.light.copyWith(
+            systemOverlayStyle: SystemUiOverlayStyle.dark.copyWith(
               statusBarColor: primaryColor,
               statusBarIconBrightness:
                   Platform.isIOS ? Brightness.dark : Brightness.light,
-              statusBarBrightness: Brightness.light,
+              statusBarBrightness: Brightness.dark,
               systemNavigationBarColor: primaryColor,
-              systemNavigationBarIconBrightness: Brightness.light,
+              systemNavigationBarIconBrightness: Brightness.dark,
             ),
           ),
           body: SafeArea(

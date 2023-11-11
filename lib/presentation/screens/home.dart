@@ -10,7 +10,7 @@ import 'package:smart_work/presentation/assets/color_manager.dart';
 import 'package:smart_work/presentation/screens/about/notifications.dart';
 import 'package:smart_work/presentation/widgets/main/note.dart';
 import 'package:smart_work/presentation/widgets/main/task.dart';
-import 'package:smart_work/presentation/widgets/task/new_task.dart';
+import 'package:smart_work/presentation/widgets/task/add_task.dart';
 import 'package:smart_work/utils/constants/labels.dart';
 import 'package:smart_work/utils/constants/maps.dart';
 import 'package:smart_work/utils/extensions/duration.dart';
@@ -106,7 +106,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         AppCubit cubit = AppCubit.get(context);
         return AdvancedDrawer(
           rtlOpening: locale.languageCode == 'ar',
-          
           controller: cubit.advancedDrawerController,
           backdropColor: primaryColor,
           openRatio: 0.4,
@@ -121,12 +120,13 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
             appBar: AppBar(
               toolbarHeight: 0,
               elevation: 0,
+              backgroundColor: Colors.white,
               systemOverlayStyle: const SystemUiOverlayStyle(
-                statusBarColor: Colors.white,
-                statusBarIconBrightness: Brightness.dark,
-                statusBarBrightness: Brightness.dark,
+                statusBarColor: Colors.black,
+                statusBarIconBrightness: Brightness.light,
+                statusBarBrightness: Brightness.light,
                 systemNavigationBarColor: Colors.white,
-                systemNavigationBarIconBrightness: Brightness.dark,
+                systemNavigationBarIconBrightness: Brightness.light,
               ),
             ),
             body: SingleChildScrollView(
@@ -148,11 +148,14 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                           onTap: () {
                             cubit.advancedDrawerController.showDrawer();
                           },
-                          child: SvgPicture.asset(
-                            'assets/icons/menu.svg',
-                            colorFilter: const ColorFilter.mode(
-                              Color(0xFF242041),
-                              BlendMode.srcIn,
+                          child: Transform.flip(
+                            flipX: locale.languageCode == 'ar',
+                            child: SvgPicture.asset(
+                              'assets/icons/menu.svg',
+                              colorFilter: const ColorFilter.mode(
+                                Color(0xFF242041),
+                                BlendMode.srcIn,
+                              ),
                             ),
                           ),
                         ),
@@ -179,7 +182,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                                   gender: cubit.userProfile!.gender!,
                                 )
                               : Text(
-                                  titleMap[cubit.currentIndex]!,
+                                  titleMap[cubit.currentIndex]!.i18n(),
                                   textAlign: TextAlign.start,
                                   key: ValueKey<String>(
                                       titleMap[cubit.currentIndex]!),

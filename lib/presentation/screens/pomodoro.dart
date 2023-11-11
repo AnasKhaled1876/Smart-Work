@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:localization/localization.dart';
 import 'package:smart_work/cubits/cubit/app_cubit.dart';
 import 'package:smart_work/presentation/assets/color_manager.dart';
 import 'package:smart_work/presentation/widgets/pomodoro/pomodoro_widget.dart';
@@ -66,10 +67,13 @@ class _PomodoroScreenState extends State<PomodoroScreen> {
                     child: child,
                   ),
                   duration: const Duration(milliseconds: 300),
-                  child: Image.asset(
-                    selectedModeImage[cubit.selectedPomodoroMode]!,
+                  child: Transform.flip(
+                    flipX: locale.languageCode == "ar",
                     key: ValueKey<int>(cubit.selectedPomodoroMode),
-                    fit: BoxFit.cover,
+                    child: Image.asset(
+                      selectedModeImage[cubit.selectedPomodoroMode]!,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
                 Padding(
@@ -85,33 +89,36 @@ class _PomodoroScreenState extends State<PomodoroScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           InkWell(
+                            splashColor: Colors.transparent,
                             onTap: () {
                               cubit.changePomodoroMode(index: 0);
                             },
                             child: ModeTile(
                               //TODO: Replace with sand clock
                               icon: 'assets/icons/sand_clock.svg',
-                              title: 'Timer',
+                              title: 'Timer'.i18n(),
                               isSelected: cubit.selectedPomodoroMode == 0,
                             ),
                           ),
                           InkWell(
+                            splashColor: Colors.transparent,
                             onTap: () {
                               cubit.changePomodoroMode(index: 1);
                             },
                             child: ModeTile(
                               icon: 'assets/icons/pomodoro.svg',
-                              title: 'Pomodoro',
+                              title: 'Pomodoro'.i18n(),
                               isSelected: cubit.selectedPomodoroMode == 1,
                             ),
                           ),
                           InkWell(
+                            splashColor: Colors.transparent,
                             onTap: () {
                               cubit.changePomodoroMode(index: 2);
                             },
                             child: ModeTile(
                               icon: 'assets/icons/stopwatch.svg',
-                              title: 'Stop Watch',
+                              title: 'Stop Watch'.i18n(),
                               isSelected: cubit.selectedPomodoroMode == 2,
                             ),
                           )

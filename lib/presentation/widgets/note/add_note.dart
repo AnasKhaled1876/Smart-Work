@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:badges/badges.dart' as badge;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:localization/localization.dart';
 import 'package:smart_work/cubits/cubit/app_cubit.dart';
 import 'package:smart_work/domain/models/note.dart';
 import 'package:smart_work/presentation/assets/color_manager.dart';
 import 'package:smart_work/utils/constants/images.dart';
-
 import '../../../utils/constants/labels.dart';
 
 class AddNoteSheet extends StatefulWidget {
@@ -19,9 +19,8 @@ class AddNoteSheet extends StatefulWidget {
 }
 
 class _AddNoteSheetState extends State<AddNoteSheet> {
-
   TextEditingController titleController = TextEditingController();
-  
+
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -107,12 +106,12 @@ class _AddNoteSheetState extends State<AddNoteSheet> {
                       controller: titleController,
                       validator: (value) {
                         if (value!.isEmpty) {
-                          return 'Please enter a title';
+                          return 'Please enter a title'.i18n();
                         }
                         return null;
                       },
                       decoration: InputDecoration(
-                        hintText: 'Enter a Title',
+                        hintText: 'Enter a Title'.i18n(),
                         hintStyle: TextStyle(
                           color: primaryColor.withOpacity(0.6),
                           fontSize: textSize * 16,
@@ -133,7 +132,7 @@ class _AddNoteSheetState extends State<AddNoteSheet> {
                       style: TextStyle(
                         color: primaryColor,
                         fontSize: textSize * 23,
-                        fontFamily: 'SFPro Display',
+                        fontFamily: 'SFPro',
                         fontWeight: FontWeight.w400,
                       ),
                     ),
@@ -142,11 +141,11 @@ class _AddNoteSheetState extends State<AddNoteSheet> {
                     ),
                     SizedBox(
                       child: Text(
-                        'Choose The Category',
+                        'Choose The Category'.i18n(),
                         style: TextStyle(
                           color: primaryColor,
                           fontSize: textSize * 16,
-                          fontFamily: 'SFPro Display',
+                          fontFamily: 'SFPro',
                           fontWeight: FontWeight.w600,
                         ),
                       ),
@@ -176,7 +175,7 @@ class _AddNoteSheetState extends State<AddNoteSheet> {
                                 width: width * 16,
                               ),
                               Text(
-                                categoriesLabels[index],
+                                categoriesLabels[index].i18n(),
                                 style: TextStyle(
                                   color: primaryColor,
                                   fontSize: textSize * 17,
@@ -236,7 +235,7 @@ class _AddNoteSheetState extends State<AddNoteSheet> {
                                     strokeWidth: width * 2,
                                   )
                                 : Text(
-                                    "Done",
+                                    "Done".i18n(),
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                       color: Colors.white,

@@ -22,5 +22,55 @@
   "Tasks": "مهام",
   "Today’s Tasks": "مهام اليوم",
   "see all": "عرض الكل",
-  "You have no tasks for today": "ليس لديك مهام لهذا اليوم"
+  "You have no tasks for today": "ليس لديك مهام لهذا اليوم",
+  "Search": "بحث",
+  "All": "الكل",
+  "Important": "مهم",
+  "Archived": "مؤرشف",
+  "New Task": "مهمة جديدة",
+  "Add More info about time and date": "إضافة مزيد من المعلومات حول الوقت والتاريخ",
+  "Date": "التاريخ",
+  "Time": "الوقت",
+  "Duration": "المدة",
+
+  "Stop Watch": "ساعة التوقف",
+  "Pomodoro": "بومودورو",
+  "Timer": "مؤقت",
+  "Min": "دقيقة",
+  "Long Break": "استراحة طويلة",
+  "Short Break": "استراحة قصيرة",
+  "Start": "بدء",
+  "Reset": "إعادة",
+
+
+  "Enter a Title": "أدخل عنوانًا",
+  "Please enter a title": "الرجاء إدخال عنوان",
+  "Choose The Category": "اختر الفئة",
+  "Personal": "شخصي",
+  "Life": "حياة",
+  "Education": "تعليم",
+  "Work": "عمل",
+  "Sports": "رياضة",
+  "Cooking": "طبخ",
+  "Done": "تم",
+
+  "Notifications": "الإشعارات",
+  "Settings": "الإعدادات",
+  "Rate Us": "قيمنا",
+  "Help": "المساعدة",
+
+  "App": "التطبيق",
+  "About": "حول",
+
+  "Today": "اليوم",
+
+  "Personal Settings": "الإعدادات الشخصية",
+
+  "Language": "اللغة",
+
+  "Rate The Application": "قيم التطبيق",
+  "From 0 To 5": "من 0 إلى 5",
+  "Your Feedback": "ملاحظاتك",
+  "Send": "إرسال"
+
 }

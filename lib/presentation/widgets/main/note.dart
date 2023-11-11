@@ -1,3 +1,4 @@
+import 'package:localization/localization.dart';
 import 'package:smart_work/cubits/cubit/app_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_work/presentation/widgets/note/note_tile.dart';
@@ -48,7 +49,7 @@ class _NoteWidgetState extends State<NoteWidget>
                 filled: true,
                 contentPadding: EdgeInsets.symmetric(
                     horizontal: width * 10, vertical: height * 14),
-                hintText: 'Search',
+                hintText: 'Search'.i18n(),
                 hintStyle: TextStyle(
                   color: primaryColor,
                   fontSize: textSize * 14,

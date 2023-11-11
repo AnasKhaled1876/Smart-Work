@@ -29,7 +29,7 @@ class LanguageBottomSheet extends StatelessWidget {
               SvgPicture.asset(
                 "assets/icons/globe.svg",
                 colorFilter: const ColorFilter.mode(
-                  secondaryColor,
+                  primaryColor,
                   BlendMode.srcATop,
                 ),
               ),
@@ -39,7 +39,7 @@ class LanguageBottomSheet extends StatelessWidget {
               Text(
                 'Language'.i18n(),
                 style: TextStyle(
-                  color: secondaryColor,
+                  color: primaryColor,
                   fontSize: textSize * 20,
                   fontWeight: FontWeight.w600,
                   letterSpacing: 1.41,
@@ -80,7 +80,7 @@ class LanguageBottomSheet extends StatelessWidget {
                   .write(key: "country", value: _locale.countryCode!);
 
               MyApp.setLocale(context, _locale);
-              
+
               // AppCubit.get(context).setTheme();
               // ignore: use_build_context_synchronously
               Navigator.pushNamedAndRemoveUntil(
@@ -160,7 +160,7 @@ class LocaleTile extends StatelessWidget {
                   ? Text(
                       subText!,
                       style: TextStyle(
-                        color: secondaryColor,
+                        color: primaryColor.withOpacity(0.5),
                         fontSize: textSize * 13,
                         fontWeight: FontWeight.w500,
                       ),

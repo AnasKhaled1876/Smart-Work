@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:localization/localization.dart';
 import 'package:smart_work/cubits/cubit/app_cubit.dart';
 import '../../../config/themes/main_theme.dart';
 import '../../../utils/constants/labels.dart';
@@ -42,7 +43,7 @@ class _RateUsScreenState extends State<RateUsScreen> {
                         children: [
                           Expanded(
                             child: Text(
-                              'Rate Us',
+                              'Rate Us'.i18n(),
                               style: TextStyle(
                                 color: primaryColor,
                                 fontSize: textSize * 20,
@@ -83,7 +84,7 @@ class _RateUsScreenState extends State<RateUsScreen> {
                         height: height * 70,
                       ),
                       Text(
-                        'Rate The Application ',
+                        'Rate The Application'.i18n(),
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: primaryColor,
@@ -96,7 +97,7 @@ class _RateUsScreenState extends State<RateUsScreen> {
                         height: height * 6,
                       ),
                       Text(
-                        'From 0 To 5',
+                        'From 0 To 5'.i18n(),
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: primaryColor,
@@ -131,7 +132,7 @@ class _RateUsScreenState extends State<RateUsScreen> {
                           ],
                           decoration: InputDecoration(
                             border: InputBorder.none,
-                            labelText: 'Your Feedback',
+                            labelText: 'Your Feedback'.i18n(),
                             alignLabelWithHint: true,
                             labelStyle: TextStyle(
                               color: const Color(0xFFAEACB9),
@@ -166,7 +167,7 @@ class _RateUsScreenState extends State<RateUsScreen> {
                                         CrossAxisAlignment.center,
                                     children: [
                                       Text(
-                                        'Send',
+                                        'Send'.i18n(),
                                         style: TextStyle(
                                           color: Colors.white,
                                           fontSize: textSize * 20,
@@ -174,10 +175,13 @@ class _RateUsScreenState extends State<RateUsScreen> {
                                         ),
                                       ),
                                       const Spacer(),
-                                      SvgPicture.asset(
-                                        "assets/icons/arrow_right.svg",
-                                        width: width * 24,
-                                        height: height * 24,
+                                      Transform.flip(
+                                        flipX: locale.languageCode == 'ar',
+                                        child: SvgPicture.asset(
+                                          "assets/icons/arrow_right.svg",
+                                          width: width * 24,
+                                          height: height * 24,
+                                        ),
                                       ),
                                     ],
                                   ),

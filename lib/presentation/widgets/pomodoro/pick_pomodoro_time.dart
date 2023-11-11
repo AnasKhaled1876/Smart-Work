@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:localization/localization.dart';
 import 'package:smart_work/cubits/cubit/app_cubit.dart';
 import '../../../utils/constants/labels.dart';
 import 'pomodoro_widget.dart';
@@ -27,7 +28,7 @@ class _PickPomodoroTimeState extends State<PickPomodoroTime> {
                 height: width * 60,
               ),
               TimeSlider(
-                  title: "Pomodoro",
+                  title: "Pomodoro".i18n(),
                   onChanged: (value) {
                     cubit.changePomodoroTime(pomodoro: value);
                   },
@@ -36,7 +37,7 @@ class _PickPomodoroTimeState extends State<PickPomodoroTime> {
                 height: height * 20,
               ),
               TimeSlider(
-                  title: "Long Break",
+                  title: "Long Break".i18n(),
                   onChanged: (value) {
                     cubit.changePomodoroTime(longBreak: value);
                   },
@@ -45,7 +46,7 @@ class _PickPomodoroTimeState extends State<PickPomodoroTime> {
                 height: height * 20,
               ),
               TimeSlider(
-                title: "Short Break",
+                title: "Short Break".i18n(),
                 onChanged: (value) {
                   cubit.changePomodoroTime(shortBreak: value);
                 },

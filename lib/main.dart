@@ -21,9 +21,8 @@ import 'package:smart_work/presentation/screens/settings/personal_settings.dart'
 import 'package:smart_work/presentation/screens/sign_up.dart';
 import 'package:smart_work/presentation/screens/splash.dart';
 import 'package:smart_work/presentation/widgets/note/note_details.dart';
-import 'package:smart_work/presentation/widgets/task/new_task.dart';
+import 'package:smart_work/presentation/widgets/task/add_task.dart';
 import 'package:smart_work/presentation/widgets/task/task_details.dart';
-
 import 'firebase_options.dart';
 import 'utils/constants/labels.dart';
 
@@ -98,8 +97,8 @@ class _MyAppState extends State<MyApp> {
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle.light.copyWith(
         statusBarColor: Colors.white,
-        statusBarIconBrightness: Brightness.dark,
-        statusBarBrightness: Brightness.dark,
+        statusBarIconBrightness: Brightness.light,
+        statusBarBrightness: Brightness.light,
         systemNavigationBarColor: Colors.white,
         systemNavigationBarIconBrightness: Brightness.light,
       ),

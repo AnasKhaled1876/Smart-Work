@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:localization/localization.dart';
+import 'package:smart_work/presentation/widgets/sheets/language.dart';
 import 'package:smart_work/utils/constants/routes.dart';
 import '../../../utils/constants/labels.dart';
 import '../../assets/color_manager.dart';
@@ -24,7 +26,7 @@ class SettingsScreen extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Text(
-                      'Settings',
+                      'Settings'.i18n(),
                       style: TextStyle(
                         color: primaryColor,
                         fontSize: textSize * 22,
@@ -70,7 +72,9 @@ class SettingsScreen extends StatelessWidget {
                         ? Row(
                             children: [
                               Text(
-                                'English',
+                                locale.languageCode == "ar"
+                                    ? "العربية"
+                                    : 'English',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   color: primaryColor,
@@ -79,7 +83,7 @@ class SettingsScreen extends StatelessWidget {
                                 ),
                               ),
                               SizedBox(
-                                width: width * 6,
+                                width: width * 12,
                               ),
                               SvgPicture.asset(
                                 "assets/icons/globe.svg",
@@ -89,10 +93,21 @@ class SettingsScreen extends StatelessWidget {
                             ],
                           )
                         : null,
-                    title: settingsTitles[index],
+                    title: settingsTitles[index].i18n(),
                     onTap: () {
                       if (index == 2) {
-                        // Navigator.pushNamed(context, LanguageScreen.routeName);
+                        showModalBottomSheet(
+                          isScrollControlled: true,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(width * 10),
+                              topRight: Radius.circular(width * 10),
+                            ),
+                          ),
+                          backgroundColor: Colors.white,
+                          context: context,
+                          builder: (context) => const LanguageBottomSheet(),
+                        );
                       } else {
                         Navigator.pushNamed(
                           context,

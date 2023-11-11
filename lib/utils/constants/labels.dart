@@ -83,7 +83,7 @@ class WelcomeRow extends StatelessWidget {
         ),
         SizedBox(height: height * 2),
         Text(
-          '${gender == "Male" ? "Mr.".i18n() : "Miss ".i18n()} $name',
+          '${gender == "Male" ? "Mr.".i18n() : "Miss".i18n()}\t$name',
           textAlign: TextAlign.start,
           style: TextStyle(
             color: const Color(0xFF242041),

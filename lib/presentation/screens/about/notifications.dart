@@ -1,3 +1,4 @@
+import 'package:localization/localization.dart';
 import 'package:smart_work/presentation/assets/color_manager.dart';
 import '../../../utils/constants/labels.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +25,7 @@ class NotificationsScreen extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Text(
-                      'Notifications',
+                      'Notifications'.i18n(),
                       style: TextStyle(
                         color: primaryColor,
                         fontSize: textSize * 22,

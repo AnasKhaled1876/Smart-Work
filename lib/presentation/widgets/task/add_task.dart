@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
+import 'package:localization/localization.dart';
 import 'package:smart_work/cubits/cubit/app_cubit.dart';
 import 'package:smart_work/domain/models/task.dart';
 import 'package:smart_work/presentation/widgets/task/task_category.dart';
@@ -21,7 +22,7 @@ class AddTaskScreen extends StatefulWidget {
 
 class _AddTaskScreenState extends State<AddTaskScreen> {
   TextEditingController titleController =
-      TextEditingController(text: "New Task");
+      TextEditingController(text: "New Task".i18n());
   TextEditingController descriptionController = TextEditingController();
   Duration? duration;
   @override
@@ -124,9 +125,9 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                 fontFamily: 'SFPro',
                                 fontWeight: FontWeight.w400,
                               ),
-                              decoration: const InputDecoration.collapsed(
-                                  hintText:
-                                      "Add More info about time and date"),
+                              decoration: InputDecoration.collapsed(
+                                  hintText: "Add More info about time and date"
+                                      .i18n()),
                             )
                           ],
                         ),
@@ -190,9 +191,10 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                         children: [
                           Text(
                             cubit.pickedTaskDate != null
-                                ? DateFormat("dd MMMM yyyy")
+                                ? DateFormat(
+                                        "dd MMMM yyyy", locale.languageCode)
                                     .format(cubit.pickedTaskDate!)
-                                : 'Date',
+                                : 'Date'.i18n(),
                             style: TextStyle(
                               color: primaryColor,
                               fontSize: textSize * 16,
@@ -242,7 +244,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                           Text(
                             cubit.pickedTaskTime != null
                                 ? cubit.pickedTaskTime!.format(context)
-                                : 'Time',
+                                : 'Time'.i18n(),
                             style: TextStyle(
                               color: primaryColor,
                               fontSize: textSize * 16,
@@ -268,7 +270,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                     height: height * 40,
                   ),
                   Text(
-                    'Duration',
+                    'Duration'.i18n(),
                     style: TextStyle(
                       color: primaryColor,
                       fontSize: textSize * 18,
@@ -324,7 +326,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Text(
-                                    'Get Started',
+                                    'Get Started'.i18n(),
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontSize: textSize * 20,
@@ -332,10 +334,13 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                     ),
                                   ),
                                   const Spacer(),
-                                  SvgPicture.asset(
-                                    "assets/icons/arrow_right.svg",
-                                    width: width * 24,
-                                    height: height * 24,
+                                  Transform.flip(
+                                    flipX: locale.languageCode == 'ar',
+                                    child: SvgPicture.asset(
+                                      "assets/icons/arrow_right.svg",
+                                      width: width * 24,
+                                      height: height * 24,
+                                    ),
                                   ),
                                 ],
                               ),

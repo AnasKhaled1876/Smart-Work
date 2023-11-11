@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:localization/localization.dart';
 import 'package:smart_work/cubits/cubit/app_cubit.dart';
-
 import '../../utils/constants/images.dart';
 import '../../utils/constants/labels.dart';
 import '../../utils/constants/routes.dart';
@@ -40,12 +40,13 @@ class AdvancedDrawerWidget extends StatelessWidget {
             ),
             Positioned(
               top: height * 200,
-              left: width * 20,
+              left: locale.languageCode == "ar" ? 0 : width * 20,
+              right: locale.languageCode == "ar" ? width * 20 : 0,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'App',
+                    'App'.i18n(),
                     style: TextStyle(
                       color: secondaryColor,
                       fontSize: textSize * 14,
@@ -86,7 +87,7 @@ class AdvancedDrawerWidget extends StatelessWidget {
                                 width: width * 16,
                               ),
                               Text(
-                                appLabels[index],
+                                appLabels[index].i18n(),
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: textSize * 16,
@@ -104,7 +105,7 @@ class AdvancedDrawerWidget extends StatelessWidget {
                     height: height * 30,
                   ),
                   Text(
-                    'About',
+                    'About'.i18n(),
                     style: TextStyle(
                       color: secondaryColor,
                       fontSize: textSize * 14,
@@ -140,7 +141,7 @@ class AdvancedDrawerWidget extends StatelessWidget {
                                 width: width * 16,
                               ),
                               Text(
-                                aboutLabels[index],
+                                aboutLabels[index].i18n(),
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: textSize * 16,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:localization/localization.dart';
 import '../../../utils/constants/labels.dart';
 import '../../assets/color_manager.dart';
 
@@ -23,7 +24,7 @@ class NotificationDayTile extends StatelessWidget {
                 width: width * 5,
               ),
               Text(
-                'Today',
+                'Today'.i18n(),
                 style: TextStyle(
                   color: primaryColor,
                   fontSize: textSize * 16.5,

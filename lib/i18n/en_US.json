@@ -23,5 +23,55 @@
   "Tasks": "Tasks",
   "Today’s Tasks": "Today’s Tasks",
   "see all": "see all",
-  "You have no tasks for today": "You have no tasks for today"
+  "You have no tasks for today": "You have no tasks for today",
+
+  "Search": "Search",
+  "All": "All",
+  "Important": "Important",
+  "Archived": "Archived",
+
+  "New Task": "New Task",
+  "Add More info about time and date": "Add More info about time and date",
+  "Date": "Date",
+  "Time": "Time",
+  "Duration": "Duration",
+
+  "Stop Watch": "Stop Watch",
+  "Pomodoro": "Pomodoro",
+  "Timer": "Timer",
+  "Min": "Min",
+  "Long Break": "Long Break",
+  "Short Break": "Short Break",
+  "Start": "Start",
+  "Reset": "Reset",
+
+  "Enter a Title": "Enter a Title",
+  "Please enter a title": "Please enter a title",
+  "Choose The Category": "Choose The Category",
+  "Personal": "Personal",
+  "Life": "Life",
+  "Education": "Education",
+  "Work": "Work",
+  "Sports": "Sports",
+  "Cooking": "Cooking",
+  "Done": "Done",
+
+  "Notifications": "Notifications",
+  "Settings": "Settings",
+  "Rate Us": "Rate Us",
+  "Help": "Help",
+
+  "App": "App",
+  "About": "About",
+
+  "Today": "Today",
+
+  "Personal Settings": "Personal Settings",
+
+  "Language": "Language",
+
+  "Rate The Application": "Rate The Application",
+  "From 0 To 5": "From 0 To 5",
+  "Your Feedback": "Your Feedback",
+  "Send": "Send"
 }
