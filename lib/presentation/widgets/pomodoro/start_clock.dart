@@ -21,6 +21,7 @@ class StartClock extends StatelessWidget {
       builder: (context, state) {
         AppCubit cubit = AppCubit.get(context);
         return InkWell(
+          splashColor: Colors.transparent,
           onTap: () {
             if (stopwatch) {
               cubit.startStopWatch();

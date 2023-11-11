@@ -1,10 +1,13 @@
 import 'package:flutter/widgets.dart';
+import 'package:localization/localization.dart';
 
 double height = 0;
 
 double width = 0;
 
 double textSize = 0;
+
+Locale locale = const Locale("en", "US");
 
 const List<String> appLabels = [
   "Home",
@@ -48,12 +51,19 @@ List<String> settingsTitles = [
   "Language",
 ];
 
+const List<String> translationLanguages = [
+  "English",
+  "العربية",
+];
+
 class WelcomeRow extends StatelessWidget {
   const WelcomeRow({
     super.key,
     required this.name,
+    required this.gender,
   });
   final String name;
+  final String gender;
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +73,7 @@ class WelcomeRow extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Welcome',
+          'Welcome'.i18n(),
           textAlign: TextAlign.start,
           style: TextStyle(
             color: const Color(0xFFCCCCCC),
@@ -73,7 +83,7 @@ class WelcomeRow extends StatelessWidget {
         ),
         SizedBox(height: height * 2),
         Text(
-          'Mr. $name',
+          '${gender == "Male" ? "Mr.".i18n() : "Miss ".i18n()} $name',
           textAlign: TextAlign.start,
           style: TextStyle(
             color: const Color(0xFF242041),

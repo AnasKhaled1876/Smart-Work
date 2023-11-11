@@ -28,6 +28,17 @@ Future<void> initializeDependencies() async {
 
   locator.registerSingleton<Dio>(dio);
 
+  String? pomodoro =
+      await locator<FlutterSecureStorage>().read(key: "pomodoroTime");
+  String? longBreak =
+      await locator<FlutterSecureStorage>().read(key: "longBreak");
+  String? shortBreak =
+      await locator<FlutterSecureStorage>().read(key: "shortBreak");
+  if (pomodoro == null || longBreak == null || shortBreak == null) {
+    locator<FlutterSecureStorage>().write(key: "pomodoroTime", value: "45");
+    locator<FlutterSecureStorage>().write(key: "longBreak", value: "15");
+    locator<FlutterSecureStorage>().write(key: "shortBreak", value: "5");
+  }
   // locator.registerSingleton<ApiRepository>(
   //   ApiRepositoryImpl(
   //     locator<ProfileApiService>(),

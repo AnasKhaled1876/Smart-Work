@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:localization/localization.dart';
 import 'package:smart_work/cubits/cubit/app_cubit.dart';
 import 'package:smart_work/presentation/assets/color_manager.dart';
 import 'package:smart_work/presentation/widgets/task/task_details.dart';
@@ -30,7 +31,7 @@ class HomeWidget extends StatelessWidget {
               children: [
                 Expanded(
                   child: Text(
-                    'Today’s Tasks',
+                    'Today’s Tasks'.i18n(),
                     style: TextStyle(
                       color: const Color(0xFF242041),
                       fontSize: textSize * 14,
@@ -38,13 +39,18 @@ class HomeWidget extends StatelessWidget {
                     ),
                   ),
                 ),
-                Text(
-                  'see all',
-                  textAlign: TextAlign.right,
-                  style: TextStyle(
-                    color: const Color(0xFFC1B2FF),
-                    fontSize: textSize * 14,
-                    fontWeight: FontWeight.w400,
+                InkWell(
+                  onTap: () {
+                    cubit.changeIndex(4);
+                  },
+                  child: Text(
+                    'see all'.i18n(),
+                    textAlign: TextAlign.right,
+                    style: TextStyle(
+                      color: const Color(0xFFC1B2FF),
+                      fontSize: textSize * 14,
+                      fontWeight: FontWeight.w400,
+                    ),
                   ),
                 ),
               ],
@@ -85,7 +91,7 @@ class HomeWidget extends StatelessWidget {
                       ),
                       SizedBox(height: height * 20),
                       Text(
-                        "You have no tasks for today",
+                        "You have no tasks for today".i18n(),
                         style: TextStyle(
                           color: primaryColor.withOpacity(0.6),
                           fontSize: textSize * 14,

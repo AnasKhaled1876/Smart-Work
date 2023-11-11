@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_work/cubits/cubit/app_cubit.dart';
 import 'package:smart_work/presentation/widgets/pomodoro/pomodoro_clock.dart';
 import 'package:smart_work/presentation/widgets/pomodoro/start_clock.dart';
-
 import '../../../utils/constants/labels.dart';
 import '../../assets/color_manager.dart';
 

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:localization/localization.dart';
 import 'package:smart_work/config/themes/main_theme.dart';
 import 'package:smart_work/presentation/assets/color_manager.dart';
 import 'package:smart_work/presentation/screens/sign_up.dart';
+import 'package:smart_work/presentation/widgets/sheets/language.dart';
 import 'package:smart_work/utils/constants/images.dart';
 import 'package:smart_work/utils/constants/labels.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -52,7 +54,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                       Navigator.pushNamed(context, AddInfoScreen.routeName);
                     },
                     child: Text(
-                      'Skip',
+                      'Skip'.i18n(),
                       style: TextStyle(
                         color: const Color(0xFFAEACB9),
                         fontSize: textSize * 16,
@@ -61,23 +63,41 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                     ),
                   ),
                   const Spacer(),
-                  Text(
-                    'English',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: const Color(0xFF242041),
-                      fontSize: textSize * 16,
-                      fontFamily: 'Inter',
-                      fontWeight: FontWeight.w400,
+                  InkWell(
+                    onTap: () => showModalBottomSheet(
+                      isScrollControlled: true,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(width * 10),
+                          topRight: Radius.circular(width * 10),
+                        ),
+                      ),
+                      backgroundColor: Colors.white,
+                      context: context,
+                      builder: (context) => const LanguageBottomSheet(),
                     ),
-                  ),
-                  SizedBox(
-                    width: width * 8,
-                  ),
-                  SvgPicture.asset(
-                    "assets/icons/globe.svg",
-                    width: width * 16,
-                    height: height * 16,
+                    child: Row(
+                      children: [
+                        Text(
+                          locale.languageCode == "en" ? 'English' : "العربية",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: const Color(0xFF242041),
+                            fontSize: textSize * 16,
+                            fontFamily: 'Inter',
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        SizedBox(
+                          width: width * 8,
+                        ),
+                        SvgPicture.asset(
+                          "assets/icons/globe.svg",
+                          width: width * 16,
+                          height: height * 16,
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
@@ -93,7 +113,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                 height: height * 25,
               ),
               Text(
-                'Pomodoro Timer',
+                'Pomodoro Timer'.i18n(),
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: const Color(0xFF242041),
@@ -106,7 +126,8 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                 height: height * 24,
               ),
               Text(
-                'Add multiple pomodoro timers and set\nthe long and short break time.',
+                'Add multiple pomodoro timers and set\nthe long and short break time.'
+                    .i18n(),
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: const Color(0xFFAEACB9),
@@ -147,7 +168,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
-                      'Next',
+                      'Next'.i18n(),
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: textSize * 20,
@@ -155,10 +176,13 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                       ),
                     ),
                     const Spacer(),
-                    SvgPicture.asset(
-                      "assets/icons/arrow_right.svg",
-                      width: width * 24,
-                      height: height * 24,
+                    Transform.flip(
+                      flipX: locale.languageCode == "ar" ? true : false,
+                      child: SvgPicture.asset(
+                        "assets/icons/arrow_right.svg",
+                        width: width * 24,
+                        height: height * 24,
+                      ),
                     ),
                   ],
                 ),

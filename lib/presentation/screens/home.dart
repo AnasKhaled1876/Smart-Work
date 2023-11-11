@@ -4,6 +4,7 @@ import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:localization/localization.dart';
 import 'package:smart_work/cubits/cubit/app_cubit.dart';
 import 'package:smart_work/presentation/assets/color_manager.dart';
 import 'package:smart_work/presentation/screens/about/notifications.dart';
@@ -104,6 +105,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       builder: (context, state) {
         AppCubit cubit = AppCubit.get(context);
         return AdvancedDrawer(
+          rtlOpening: locale.languageCode == 'ar',
+          
           controller: cubit.advancedDrawerController,
           backdropColor: primaryColor,
           openRatio: 0.4,
@@ -123,7 +126,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                 statusBarIconBrightness: Brightness.dark,
                 statusBarBrightness: Brightness.dark,
                 systemNavigationBarColor: Colors.white,
-                systemNavigationBarIconBrightness: Brightness.light,
+                systemNavigationBarIconBrightness: Brightness.dark,
               ),
             ),
             body: SingleChildScrollView(
@@ -172,7 +175,9 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                           },
                           child: cubit.currentIndex == 0
                               ? WelcomeRow(
-                                  name: cubit.userProfile!.name!.toTitleCase())
+                                  name: cubit.userProfile!.name!.toTitleCase(),
+                                  gender: cubit.userProfile!.gender!,
+                                )
                               : Text(
                                   titleMap[cubit.currentIndex]!,
                                   textAlign: TextAlign.start,
@@ -259,7 +264,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                   5,
                   (index) => index == 2
                       ? SizedBox(
-                          width: width * 20,
+                          width: width * 10,
                         )
                       : InkWell(
                           splashColor: Colors.transparent,
@@ -268,9 +273,11 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                           },
                           child: BottomBarIcon(
                             iconPath:
-                                bottomBarIcons[index > 2 ? index - 1 : index],
+                                bottomBarIcons[index > 2 ? index - 1 : index]
+                                    .i18n(),
                             label:
-                                bottomBarLabels[index > 2 ? index - 1 : index],
+                                bottomBarLabels[index > 2 ? index - 1 : index]
+                                    .i18n(),
                             picked: cubit.currentIndex == index,
                           ),
                         ),

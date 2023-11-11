@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:localization/localization.dart';
 import 'package:smart_work/config/themes/main_theme.dart';
 import 'package:smart_work/presentation/assets/color_manager.dart';
 import '../../cubits/cubit/app_cubit.dart';
@@ -84,7 +85,7 @@ class _AddInfoScreenState extends State<AddInfoScreen> {
                     child: Column(
                       children: [
                         Text(
-                          'Set Your Personal \nInformation',
+                          'Set Your Personal Information'.i18n(),
                           style: TextStyle(
                             color: const Color(0xFF242041),
                             fontSize: textSize * 32,
@@ -101,13 +102,13 @@ class _AddInfoScreenState extends State<AddInfoScreen> {
                           validator: (value) {
                             if (value!.isEmpty ||
                                 value.contains(RegExp(r'[0-9]'))) {
-                              return 'Please enter some text';
+                              return 'Please enter some text'.i18n();
                             }
                             return null;
                           },
                           controller: nameController,
                           decoration: InputDecoration(
-                            hintText: 'Write Your Name',
+                            hintText: 'Write Your Name'.i18n(),
                             hintStyle: TextStyle(
                               color: const Color(0xFFAEACB9),
                               fontSize: textSize * 16,
@@ -126,7 +127,7 @@ class _AddInfoScreenState extends State<AddInfoScreen> {
                             if (value!.isEmpty ||
                                 !value.contains('@') ||
                                 !value.contains('.')) {
-                              return 'Please enter some text';
+                              return 'Please enter some text'.i18n();
                             }
                             return null;
                           },
@@ -134,7 +135,7 @@ class _AddInfoScreenState extends State<AddInfoScreen> {
                           textInputAction: TextInputAction.next,
                           controller: emailController,
                           decoration: InputDecoration(
-                            hintText: 'Write Your Email',
+                            hintText: 'Write Your Email'.i18n(),
                             hintStyle: TextStyle(
                               color: const Color(0xFFAEACB9),
                               fontSize: textSize * 16,
@@ -151,7 +152,7 @@ class _AddInfoScreenState extends State<AddInfoScreen> {
                           },
                           validator: (value) {
                             if (value!.isEmpty || value.length < 6) {
-                              return 'Please enter some text';
+                              return 'Please enter some text'.i18n();
                             }
                             return null;
                           },
@@ -167,7 +168,7 @@ class _AddInfoScreenState extends State<AddInfoScreen> {
                                 });
                               },
                               child: Text(
-                                'Show',
+                                'Show'.i18n(),
                                 style: TextStyle(
                                   decoration: obscureText
                                       ? null
@@ -178,7 +179,7 @@ class _AddInfoScreenState extends State<AddInfoScreen> {
                                 ),
                               ),
                             ),
-                            hintText: 'Invent a Password',
+                            hintText: 'Invent a Password'.i18n(),
                             hintStyle: TextStyle(
                               color: const Color(0xFFAEACB9),
                               fontSize: textSize * 16,
@@ -194,7 +195,7 @@ class _AddInfoScreenState extends State<AddInfoScreen> {
                           controlAffinity: ListTileControlAffinity.trailing,
                           checkboxShape: const CircleBorder(),
                           title: Text(
-                            'Male',
+                            'Male'.i18n(),
                             style: TextStyle(
                               color: const Color(0xFF242041),
                               fontSize: textSize * 18,
@@ -212,7 +213,7 @@ class _AddInfoScreenState extends State<AddInfoScreen> {
                           controlAffinity: ListTileControlAffinity.trailing,
                           checkboxShape: const CircleBorder(),
                           title: Text(
-                            'Female',
+                            'Female'.i18n(),
                             style: TextStyle(
                               color: const Color(0xFF242041),
                               fontSize: textSize * 18,
@@ -240,7 +241,7 @@ class _AddInfoScreenState extends State<AddInfoScreen> {
                                 email: emailController.text,
                                 password: passwordController.text,
                                 age: 22,
-                                gender: "Male",
+                                gender: value ? "Male" : "Female",
                               ));
                             }
                           },
@@ -255,7 +256,7 @@ class _AddInfoScreenState extends State<AddInfoScreen> {
                                         CrossAxisAlignment.center,
                                     children: [
                                       Text(
-                                        'Get Started',
+                                        'Get Started'.i18n(),
                                         style: TextStyle(
                                           color: Colors.white,
                                           fontSize: textSize * 20,
@@ -263,10 +264,13 @@ class _AddInfoScreenState extends State<AddInfoScreen> {
                                         ),
                                       ),
                                       const Spacer(),
-                                      SvgPicture.asset(
-                                        "assets/icons/arrow_right.svg",
-                                        width: width * 24,
-                                        height: height * 24,
+                                      Transform.flip(
+                                        flipX: locale.languageCode == 'ar',
+                                        child: SvgPicture.asset(
+                                          "assets/icons/arrow_right.svg",
+                                          width: width * 24,
+                                          height: height * 24,
+                                        ),
                                       ),
                                     ],
                                   ),

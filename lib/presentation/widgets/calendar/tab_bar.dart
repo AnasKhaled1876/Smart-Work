@@ -30,8 +30,10 @@ class _CalendarTabBarState extends State<CalendarTabBar> {
           padding: EdgeInsets.all(width * 10),
           decoration: ShapeDecoration(
             color: const Color(0xFFF7F5FF),
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(
+              width * 8,
+            )),
           ),
           child: TabBar(
             onTap: (value) {
@@ -77,18 +79,21 @@ class _CalendarTabBarState extends State<CalendarTabBar> {
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text(
-                        DateFormat('EEE').format(
-                          cubit.selectedDate!.add(
-                            const Duration(days: -1),
+                      SizedBox(
+                        width: width * 22,
+                        child: Text(
+                          DateFormat('E').format(
+                            cubit.selectedDate!.add(
+                              const Duration(days: -1),
+                            ),
                           ),
-                        ),
-                        style: TextStyle(
-                          color: widget.index == 0
-                              ? const Color(0xFFC1B2FF)
-                              : const Color(0xFF242041),
-                          fontSize: textSize * 12,
-                          fontWeight: FontWeight.w500,
+                          style: TextStyle(
+                            color: widget.index == 0
+                                ? const Color(0xFFC1B2FF)
+                                : const Color(0xFF242041),
+                            fontSize: textSize * 12,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
                       ),
                       SizedBox(

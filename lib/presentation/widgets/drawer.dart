@@ -24,7 +24,7 @@ class AdvancedDrawerWidget extends StatelessWidget {
           children: [
             Positioned(
               top: height * 30,
-              left: width * -18,
+              left: locale.languageCode == "en" ? width * -18 : width * 18,
               child: Image.asset(
                 "assets/images/drawer_circle.png",
               ),

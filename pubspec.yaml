@@ -40,6 +40,10 @@ dependencies:
   hive: ^2.2.3
   hive_flutter: ^1.1.0
   flutter_analog_clock: ^1.0.3
+  localization: ^2.1.0
+  flutter_localization: ^0.1.14
+  flutter_localizations:
+    sdk: flutter
 
 dev_dependencies:
   flutter_test:
@@ -62,6 +66,7 @@ flutter:
     - assets/icons/types/
     - assets/icons/app/
     - assets/icons/about/
+    - lib/i18n/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

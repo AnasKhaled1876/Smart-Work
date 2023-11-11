@@ -38,7 +38,7 @@ class _PickPomodoroTimeState extends State<PickPomodoroTime> {
               TimeSlider(
                   title: "Long Break",
                   onChanged: (value) {
-                    cubit.changePomodoroTime(longBreakTime: value);
+                    cubit.changePomodoroTime(longBreak: value);
                   },
                   value: cubit.longBreakTime),
               SizedBox(
@@ -47,7 +47,7 @@ class _PickPomodoroTimeState extends State<PickPomodoroTime> {
               TimeSlider(
                 title: "Short Break",
                 onChanged: (value) {
-                  cubit.changePomodoroTime(shortBreakTime: value);
+                  cubit.changePomodoroTime(shortBreak: value);
                 },
                 value: cubit.shortBreakTime,
               ),
@@ -58,7 +58,9 @@ class _PickPomodoroTimeState extends State<PickPomodoroTime> {
                 onTap: () {
                   cubit.startPomodoroTimer();
                 },
-                child: const StartClock(stopwatch: false,),
+                child: const StartClock(
+                  stopwatch: false,
+                ),
               ),
               SizedBox(
                 height: width * 40,

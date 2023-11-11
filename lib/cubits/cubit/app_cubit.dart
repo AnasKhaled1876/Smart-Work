@@ -28,7 +28,7 @@ class AppCubit extends Cubit<AppState> {
   List<SmartNotification>? notifications;
   List<List<SmartNotification>>? groupedByDateNotifications;
   DateTime? selectedDate;
-  double pomodoroTime = 10, shortBreakTime = 10, longBreakTime = 10;
+  double pomodoroTime = 45, shortBreakTime = 5, longBreakTime = 15;
   TimeOfDay? pickedTaskTime;
   DateTime? pickedTaskDate;
   Duration stopwatchTime = Duration.zero;
@@ -118,11 +118,11 @@ class AppCubit extends Cubit<AppState> {
   }
 
   void changePomodoroTime(
-      {double? pomodoro, double? shortBreakTime, double? longBreakTime}) {
+      {double? pomodoro, double? shortBreak, double? longBreak}) {
     emit(AppChangingState());
     pomodoroTime = pomodoro ?? pomodoroTime;
-    shortBreakTime = shortBreakTime ?? shortBreakTime;
-    longBreakTime = longBreakTime ?? longBreakTime;
+    shortBreakTime = shortBreak ?? shortBreakTime;
+    longBreakTime = longBreak ?? longBreakTime;
     emit(AppChangeBottomNavBarState());
   }
 

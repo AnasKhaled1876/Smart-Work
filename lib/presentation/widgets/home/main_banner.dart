@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_analog_clock/flutter_analog_clock.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:localization/localization.dart';
 import 'package:smart_work/cubits/cubit/app_cubit.dart';
 import 'package:smart_work/presentation/assets/color_manager.dart';
 import 'package:smart_work/utils/constants/labels.dart';
@@ -58,7 +59,7 @@ class _MainBannerState extends State<MainBanner> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    DateFormat("h:mm a").format(cubit.now),
+                    DateFormat("h:mm a", locale.languageCode).format(cubit.now),
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: textSize * 25.02,
@@ -67,7 +68,8 @@ class _MainBannerState extends State<MainBanner> {
                   ),
                   SizedBox(height: height * 6),
                   Text(
-                    DateFormat("EEEE, dd MMMM yyyy").format(cubit.now),
+                    DateFormat("EEEE, dd MMMM yyyy", locale.languageCode)
+                        .format(cubit.now),
                     style: TextStyle(
                       color: const Color(0xFFC1B2FF),
                       fontSize: textSize * 12.04,
@@ -78,7 +80,7 @@ class _MainBannerState extends State<MainBanner> {
                     height: height * 31,
                   ),
                   Text(
-                    '${cubit.userProfile!.tasks?.length ?? 0} Tasks',
+                    '${cubit.userProfile!.tasks?.length ?? 0} ${"Tasks".i18n()}',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: textSize * 12.04,

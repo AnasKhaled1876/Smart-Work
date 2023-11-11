@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:localization/localization.dart';
 import 'package:smart_work/config/themes/main_theme.dart';
 import 'package:smart_work/cubits/cubit/app_cubit.dart';
 import 'package:smart_work/injection.dart';
@@ -57,21 +60,34 @@ void main() async {
   await flutterLocalNotificationsPlugin.initialize(
     initializationSettings,
   );
+  locale = await locator<FlutterSecureStorage>().read(key: 'language') == 'ar'
+      ? const Locale('ar', 'SA')
+      : const Locale('en', 'US');
 
   runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
+  static void setLocale(BuildContext context, Locale newLocale) async {
+    _MyAppState? state = context.findAncestorStateOfType<_MyAppState>();
+    state!.changeLanguage(newLocale);
+  }
 
   @override
   State<MyApp> createState() => _MyAppState();
 }
 
-class _MyAppState extends State<MyApp>{
-  
+class _MyAppState extends State<MyApp> {
+  changeLanguage(Locale passedLocale) {
+    setState(() {
+      locale = passedLocale;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    LocalJsonLocalization.delegate.directories = ['lib/i18n'];
     double baseWidth = 393;
     double fem = MediaQuery.sizeOf(context).width / baseWidth;
     double ffem = fem * 0.97;
@@ -91,8 +107,30 @@ class _MyAppState extends State<MyApp>{
     return BlocProvider(
       create: (BuildContext context) => AppCubit(),
       child: MaterialApp(
+        locale: locale,
+        localeResolutionCallback: (locale, supportedLocales) {
+          for (var supportedLocale in supportedLocales) {
+            if (supportedLocale.languageCode == locale!.languageCode &&
+                supportedLocale.countryCode == locale.countryCode) {
+              return supportedLocale;
+            }
+          }
+          return supportedLocales.first;
+        },
+        localizationsDelegates: [
+          // delegate from flutter_localization
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+          // delegate from localization package.
+          LocalJsonLocalization.delegate,
+        ],
         debugShowCheckedModeBanner: false,
         theme: mainTheme,
+        supportedLocales: const [
+          Locale('en', 'US'),
+          Locale('ar', 'SA'),
+        ],
         routes: {
           '/splash': (context) => const SplashScreen(),
           OnBoardingScreen.routeName: (context) => const OnBoardingScreen(),

@@ -63,7 +63,7 @@ class NoteTile extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          note.description ?? "No title",
+                          note.title ?? "No title",
                           style: TextStyle(
                             color: const Color(0xFF242041),
                             fontSize: textSize * 15,
@@ -76,7 +76,7 @@ class NoteTile extends StatelessWidget {
                         SizedBox(
                           width: width * 233,
                           child: Text(
-                            'Lorem ipsum dolor sit amet consectetur...',
+                            note.description ?? "No description",
                             style: TextStyle(
                               color: const Color(0x5E242041),
                               fontSize: textSize * 11,
