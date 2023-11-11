@@ -13,7 +13,6 @@ import 'package:smart_work/presentation/widgets/main/task.dart';
 import 'package:smart_work/presentation/widgets/task/add_task.dart';
 import 'package:smart_work/utils/constants/labels.dart';
 import 'package:smart_work/utils/constants/maps.dart';
-import 'package:smart_work/utils/extensions/duration.dart';
 import 'package:smart_work/utils/extensions/string.dart';
 import '../../injection.dart';
 import '../../utils/constants/images.dart';
@@ -39,12 +38,13 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     WidgetsBinding.instance.addObserver(this);
     locator<FlutterSecureStorage>()
         .read(
-      key: "stopwatch",
+      key: "stopwatchStartTime",
     )
         .then((value) {
       if (value != null) {
         AppCubit.get(context).stopwatchTime =
-            const Duration().parseDuration(value);
+            DateTime.now().difference(DateTime.parse(value));
+        AppCubit.get(context).startStopWatch();
       }
     });
   }
@@ -56,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   }
 
   @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
+  void didChangeAppLifecycleState(AppLifecycleState state) async {
     super.didChangeAppLifecycleState(state);
 
     switch (state) {
@@ -65,10 +65,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         break;
       case AppLifecycleState.paused:
         print('App is paused');
-        locator<FlutterSecureStorage>().write(
-          key: "stopwatch",
-          value: AppCubit.get(context).stopwatchTime.toString(),
-        );
         break;
       case AppLifecycleState.resumed:
         print('App is resumed');

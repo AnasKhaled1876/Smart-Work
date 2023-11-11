@@ -24,14 +24,19 @@ class AdvancedDrawerWidget extends StatelessWidget {
           children: [
             Positioned(
               top: height * 30,
-              left: locale.languageCode == "en" ? width * -18 : width * 18,
-              child: Image.asset(
-                "assets/images/drawer_circle.png",
+              left: locale.languageCode == "en" ? width * -18 : null,
+              right: locale.languageCode == "ar" ? width * -18 : null,
+              child: Transform.flip(
+                flipX: locale.languageCode == "ar" ? true : false,
+                child: Image.asset(
+                  "assets/images/drawer_circle.png",
+                ),
               ),
             ),
             Positioned(
               top: height * 90,
-              left: width * 15,
+              left: locale.languageCode == "en" ? width * 15 : null,
+              right: locale.languageCode == "ar" ? width * 15 : null,
               child: Image.asset(
                 "assets/images/logo_icon.png",
                 width: width * 60,

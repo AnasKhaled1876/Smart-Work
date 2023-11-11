@@ -145,8 +145,12 @@ class AppCubit extends Cubit<AppState> {
     emit(AppChangeBottomNavBarState());
   }
 
-  void startStopWatch() {
+  Future startStopWatch() async {
     emit(AppChangingState());
+    await locator<FlutterSecureStorage>().write(
+      key: "stopwatchStartTime",
+      value: DateTime.now().toIso8601String(),
+    );
     stopwatchTimer = Timer.periodic(const Duration(milliseconds: 5), (timer) {
       emit(AppChangeBottomNavBarState());
       emit(AppChangingState());
@@ -155,9 +159,10 @@ class AppCubit extends Cubit<AppState> {
     });
   }
 
-  void resetStopWatch() {
+  void resetStopWatch() async {
     emit(AppChangingState());
     stopwatchTimer!.cancel();
+    await locator<FlutterSecureStorage>().delete(key: "stopwatchStartTime");
     stopwatchTimer = null;
     stopwatchTime = Duration.zero;
     emit(AppChangeBottomNavBarState());

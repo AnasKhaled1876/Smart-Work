@@ -63,6 +63,8 @@ void main() async {
       ? const Locale('ar', 'SA')
       : const Locale('en', 'US');
 
+  
+
   runApp(const MyApp());
 }
 

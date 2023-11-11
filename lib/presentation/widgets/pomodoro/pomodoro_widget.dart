@@ -57,9 +57,9 @@ class TimeSlider extends StatelessWidget {
       {super.key,
       required this.onChanged,
       required this.value,
-      required this.title});
+      required this.title, required this.min, required this.max});
   final Function onChanged;
-  final double value;
+  final double value,min,max;
   final String title;
 
   @override
@@ -136,8 +136,8 @@ class TimeSlider extends StatelessWidget {
                   ),
                 ),
                 child: SfSlider(
-                  min: 10.0,
-                  max: 60.0,
+                  min: min,
+                  max: max,
                   value: value,
                   activeColor: secondaryColor,
                   inactiveColor: Colors.white,
