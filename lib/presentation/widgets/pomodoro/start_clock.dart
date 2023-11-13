@@ -25,6 +25,8 @@ class StartClock extends StatelessWidget {
           onTap: () {
             if (stopwatch) {
               cubit.startStopWatch();
+            } else {
+              cubit.startPomodoroTimer();
             }
           },
           child: Stack(

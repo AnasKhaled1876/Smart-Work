@@ -22,9 +22,13 @@ class AppCubit extends Cubit<AppState> {
 
   static AppCubit get(context) => BlocProvider.of(context);
 
-  int currentIndex = 0;
+  int currentIndex = 0, counter = 0;
   CalendarController? calendarController;
-  Timer? pomodoroTimer, stopwatchTimer;
+  Timer? pomodoroTimer, stopwatchTimer, mainTimer;
+  String? pomodoroTitle;
+  Duration pomodoroDuration = const Duration(minutes: 0);
+  Duration longBreakDuration = const Duration(minutes: 0);
+  Duration shortBreakDuration = const Duration(minutes: 0);
   List<SmartNotification>? notifications;
   List<List<SmartNotification>>? groupedByDateNotifications;
   DateTime? selectedDate;
@@ -123,34 +127,158 @@ class AppCubit extends Cubit<AppState> {
     pomodoroTime = pomodoro ?? pomodoroTime;
     shortBreakTime = shortBreak ?? shortBreakTime;
     longBreakTime = longBreak ?? longBreakTime;
+    pomodoroDuration = Duration(minutes: pomodoroTime.toInt());
+    shortBreakDuration = Duration(minutes: shortBreakTime.toInt());
+    longBreakDuration = Duration(minutes: longBreakTime.toInt());
     emit(AppChangeBottomNavBarState());
   }
 
-  void changePomodoroMode({required int index}) {
+  void changeTimeMode({required int index}) {
     emit(AppChangingState());
     selectedPomodoroMode = index;
     emit(AppChangeBottomNavBarState());
   }
 
-  void startPomodoroTimer() {
+  void startPomodoroTimer() async {
     emit(AppChangingState());
-    pomodoroTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      if (pomodoroTime > 0) {
-        pomodoroTime--;
-      } else {
+
+    if (pomodoroDuration == Duration.zero) {
+      final nextState =
+          await locator<FlutterSecureStorage>().read(key: "next state");
+      switch (nextState) {
+        case 'pomodoro':
+          pomodoroDuration = Duration(minutes: pomodoroTime.toInt());
+          pomodoroTitle = 'Pomodoro';
+          break;
+        case 'shortBreak':
+          pomodoroDuration = Duration(minutes: shortBreakTime.toInt());
+          pomodoroTitle = 'Short Break';
+          break;
+        case 'longBreak':
+          pomodoroDuration = Duration(minutes: longBreakTime.toInt());
+          pomodoroTitle = 'Long Break';
+          break;
+        default:
+          throw Exception('Invalid previous state: $nextState');
+      }
+      await locator<FlutterSecureStorage>().write(
+          key: "pomodoroStartTime", value: DateTime.now().toIso8601String());
+    }
+    pomodoroTimer = Timer.periodic(const Duration(seconds: 1), (timer) async {
+      emit(AppChangeBottomNavBarState());
+      emit(AppChangingState());
+      if (pomodoroDuration.inMinutes >= pomodoroTime.toInt()) {
         pomodoroTimer!.cancel();
         pomodoroTimer = null;
+        pomodoroDuration = Duration.zero;
+        final next =
+            await locator<FlutterSecureStorage>().read(key: "next state");
+        if (next == 'pomodoro' && counter == 2) {
+          await locator<FlutterSecureStorage>()
+              .write(key: "next state", value: "longBreak");
+          counter = 0;
+        } else if (next == 'pomodoro') {
+          await locator<FlutterSecureStorage>()
+              .write(key: "next state", value: "shortBreak");
+        } else if (next == "shortBreak") {
+          await locator<FlutterSecureStorage>()
+              .write(key: "next state", value: "pomodoro");
+          counter++;
+        }
+
+        emit(AppChangeBottomNavBarState());
+        return;
+      } else {
+        pomodoroDuration = pomodoroDuration + const Duration(seconds: 1);
       }
+      emit(AppChangeBottomNavBarState());
     });
     emit(AppChangeBottomNavBarState());
   }
 
+  void stopPomodoroTimer() {
+    emit(AppChangingState());
+    pomodoroTimer!.cancel();
+    pomodoroTimer = null;
+    emit(AppChangeBottomNavBarState());
+  }
+
+  void stopStopWatch() {
+    emit(AppChangingState());
+    stopwatchTimer!.cancel();
+    stopwatchTimer = null;
+    emit(AppChangeBottomNavBarState());
+  }
+
+  // Future<void> startNextTimer() async {
+  //   emit(AppChangingState());
+
+  //   final storage = locator<FlutterSecureStorage>();
+  //   final previousState = await storage.read(key: 'previousState');
+
+  //   late Duration duration;
+
+  // switch (previousState) {
+  //   case 'pomodoro':
+  //     duration = pomodoroDuration;
+  //     pomodoroTitle = 'Pomodoro';
+  //     break;
+  //   case 'shortBreak':
+  //     duration = shortBreakDuration;
+  //     pomodoroTitle = 'Short Break';
+  //     break;
+  //   case 'longBreak':
+  //     duration = longBreakDuration;
+  //     pomodoroTitle = 'Long Break';
+  //     break;
+  //   default:
+  //     throw Exception('Invalid previous state: $previousState');
+  // }
+
+  //   mainTimer = Timer.periodic(const Duration(seconds: 1), (timer) async {
+  //     emit(AppChangeBottomNavBarState());
+  //     emit(AppChangingState());
+  //     if (duration.inMinutes == 0) {
+  //       mainTimer!.cancel();
+  //       mainTimer = null;
+  //       await locator<FlutterSecureStorage>().write(
+  //           key: "pomodoroStartTime", value: DateTime.now().toIso8601String());
+  //       if (counter == 2) {
+  //         await locator<FlutterSecureStorage>()
+  //             .write(key: "Previous State", value: "longBreak");
+  //       } else {
+  //         if(previousState == 'pomodoro'){
+  //           counter++;
+  //         }
+
+  //       }
+
+  //       emit(AppChangeBottomNavBarState());
+  //       return;
+  //     } else {
+  //       duration -= const Duration(seconds: 1);
+  //     }
+  //     emit(AppChangeBottomNavBarState());
+  //   });
+
+  //   emit(AppChangeBottomNavBarState());
+  // }
+
+  // void stopMainTimer() {
+  //   emit(AppChangingState());
+  //   mainTimer!.cancel();
+  //   mainTimer = null;
+  //   emit(AppChangeBottomNavBarState());
+  // }
+
   Future startStopWatch() async {
     emit(AppChangingState());
-    await locator<FlutterSecureStorage>().write(
-      key: "stopwatchStartTime",
-      value: DateTime.now().toIso8601String(),
-    );
+    if (stopwatchTime == Duration.zero) {
+      await locator<FlutterSecureStorage>().write(
+        key: "stopwatchStartTime",
+        value: DateTime.now().toIso8601String(),
+      );
+    }
     stopwatchTimer = Timer.periodic(const Duration(milliseconds: 5), (timer) {
       emit(AppChangeBottomNavBarState());
       emit(AppChangingState());
@@ -165,6 +293,15 @@ class AppCubit extends Cubit<AppState> {
     await locator<FlutterSecureStorage>().delete(key: "stopwatchStartTime");
     stopwatchTimer = null;
     stopwatchTime = Duration.zero;
+    emit(AppChangeBottomNavBarState());
+  }
+
+  void resetPomodoroTimer() async {
+    emit(AppChangingState());
+    pomodoroTimer!.cancel();
+    await locator<FlutterSecureStorage>().delete(key: "pomodoroStartTime");
+    pomodoroTimer = null;
+    pomodoroDuration = Duration.zero;
     emit(AppChangeBottomNavBarState());
   }
 

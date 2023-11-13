@@ -1,3 +1,5 @@
+import 'dart:developer';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
@@ -14,6 +16,7 @@ import 'package:smart_work/presentation/widgets/task/add_task.dart';
 import 'package:smart_work/utils/constants/labels.dart';
 import 'package:smart_work/utils/constants/maps.dart';
 import 'package:smart_work/utils/extensions/string.dart';
+import '../../config/helpers/notification.dart';
 import '../../injection.dart';
 import '../../utils/constants/images.dart';
 import '../widgets/drawer.dart';
@@ -31,51 +34,46 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
+class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addObserver(this);
+
     locator<FlutterSecureStorage>()
-        .read(
-      key: "stopwatchStartTime",
-    )
+        .read(key: "stopwatchStartTime")
         .then((value) {
       if (value != null) {
         AppCubit.get(context).stopwatchTime =
             DateTime.now().difference(DateTime.parse(value));
         AppCubit.get(context).startStopWatch();
       }
+    }).catchError((e) {
+      log(e);
     });
-  }
-
-  @override
-  void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
-    super.dispose();
-  }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) async {
-    super.didChangeAppLifecycleState(state);
-
-    switch (state) {
-      case AppLifecycleState.inactive:
-        print('App is inactive');
-        break;
-      case AppLifecycleState.paused:
-        print('App is paused');
-        break;
-      case AppLifecycleState.resumed:
-        print('App is resumed');
-        break;
-      case AppLifecycleState.detached:
-        print('App is detached');
-        break;
-      case AppLifecycleState.hidden:
-        print('App is hidden');
-        break;
-    }
+    locator<FlutterSecureStorage>()
+        .read(
+      key: "pomodoroStartTime",
+    )
+        .then((value) {
+      if (value != null) {
+        AppCubit.get(context).pomodoroDuration =
+            DateTime.now().difference(DateTime.parse(value));
+        AppCubit.get(context).startPomodoroTimer();
+      }
+    }).catchError((e) {
+      log(e);
+    });
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      log('Got a message whilst in the foreground!');
+      log('Message data: ${message.data}');
+      if (message.notification != null) {
+        NotificationHelper().showNotification(
+          title: message.notification!.title ?? '',
+          body: message.notification!.body ?? '',
+        );
+        log('Message also contained a notification: ${message.notification}');
+      }
+    });
   }
 
   Widget getDisplayedWidget() {

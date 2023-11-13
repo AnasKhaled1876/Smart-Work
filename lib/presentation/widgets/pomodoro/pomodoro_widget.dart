@@ -37,11 +37,36 @@ class _PomodoroWidgetState extends State<PomodoroWidget>
     return BlocConsumer<AppCubit, AppState>(
       listener: (context, state) {},
       builder: (context, state) {
+        AppCubit cubit = AppCubit.get(context);
         return AnimatedSwitcher(
           duration: const Duration(milliseconds: 500),
-          child: AppCubit.get(context).pomodoroTimer != null
-              ? const PomodoroClock(
-                  stopWatch: false,
+          child: AppCubit.get(context).pomodoroDuration != Duration.zero
+              ? Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const PomodoroClock(
+                      stopWatch: false,
+                    ),
+                    SizedBox(
+                      height: width * 30,
+                    ),
+                    InkWell(
+                      onTap: () {
+                        if (cubit.pomodoroTimer != null) {
+                          cubit.resetPomodoroTimer();
+                        }
+                      },
+                      child: Text(
+                        'RESET',
+                        style: TextStyle(
+                          color: secondaryColor,
+                          fontSize: textSize * 22.93,
+                          fontFamily: 'SFPro',
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    )
+                  ],
                 )
               : const PickPomodoroTime(
                   stopWatch: false,
@@ -57,9 +82,11 @@ class TimeSlider extends StatelessWidget {
       {super.key,
       required this.onChanged,
       required this.value,
-      required this.title, required this.min, required this.max});
+      required this.title,
+      required this.min,
+      required this.max});
   final Function onChanged;
-  final double value,min,max;
+  final double value, min, max;
   final String title;
 
   @override

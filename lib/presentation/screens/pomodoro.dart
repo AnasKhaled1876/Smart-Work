@@ -91,7 +91,7 @@ class _PomodoroScreenState extends State<PomodoroScreen> {
                           InkWell(
                             splashColor: Colors.transparent,
                             onTap: () {
-                              cubit.changePomodoroMode(index: 0);
+                              cubit.changeTimeMode(index: 0);
                             },
                             child: ModeTile(
                               //TODO: Replace with sand clock
@@ -103,7 +103,7 @@ class _PomodoroScreenState extends State<PomodoroScreen> {
                           InkWell(
                             splashColor: Colors.transparent,
                             onTap: () {
-                              cubit.changePomodoroMode(index: 1);
+                              cubit.changeTimeMode(index: 1);
                             },
                             child: ModeTile(
                               icon: 'assets/icons/pomodoro.svg',
@@ -114,7 +114,7 @@ class _PomodoroScreenState extends State<PomodoroScreen> {
                           InkWell(
                             splashColor: Colors.transparent,
                             onTap: () {
-                              cubit.changePomodoroMode(index: 2);
+                              cubit.changeTimeMode(index: 2);
                             },
                             child: ModeTile(
                               icon: 'assets/icons/stopwatch.svg',

@@ -34,10 +34,6 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // await Hive.initFlutter();
-  // var box = await Hive.openBox('testBox');
-  // await box.put('name', 'David');
-  // print(box.get('name'));
   await initializeDependencies();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
@@ -62,8 +58,13 @@ void main() async {
   locale = await locator<FlutterSecureStorage>().read(key: 'language') == 'ar'
       ? const Locale('ar', 'SA')
       : const Locale('en', 'US');
+  String? previousState =
+      await locator<FlutterSecureStorage>().read(key: 'previousState');
 
-  
+  if (previousState == 'true') {
+    await locator<FlutterSecureStorage>()
+        .write(key: 'nextState', value: '');
+  }
 
   runApp(const MyApp());
 }

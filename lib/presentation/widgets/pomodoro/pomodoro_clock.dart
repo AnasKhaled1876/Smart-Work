@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:localization/localization.dart';
 import 'package:smart_work/cubits/cubit/app_cubit.dart';
-
 import '../../../utils/constants/labels.dart';
 import '../../assets/color_manager.dart';
 
@@ -65,7 +65,7 @@ class PomodoroClock extends StatelessWidget {
                   Text(
                     stopWatch
                         ? "${cubit.stopwatchTime.inMinutes.toString().padLeft(2, '0')}:${(cubit.stopwatchTime.inSeconds % 60).toString().padLeft(2, '0')}:${(cubit.stopwatchTime.inMilliseconds % 1000 ~/ 10).toString().padLeft(2, '0')}"
-                        : '00\t:\t00\t:\t00',
+                        : "${cubit.pomodoroDuration.inMinutes.toString().padLeft(2, '0')}:${(cubit.pomodoroDuration.inSeconds % 60).toString().padLeft(2, '0')}",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: secondaryColor,
@@ -79,7 +79,7 @@ class PomodoroClock extends StatelessWidget {
                       height: height * 6,
                     ),
                     Text(
-                      'Short Break',
+                      cubit.pomodoroTitle ?? "Pomodoro".i18n(),
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Colors.white,
@@ -92,32 +92,46 @@ class PomodoroClock extends StatelessWidget {
                 ],
               ),
             )),
-            cubit.stopwatchTimer != null && cubit.stopwatchTimer!.isActive
-                ? Positioned.fill(
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: SizedBox(
-                        width: width * 165,
-                        height: width * 165,
-                        child: CircularProgressIndicator(
-                          strokeWidth: width * 2,
-                          color: secondaryColor,
-                          value: stopWatch ? null : cubit.pomodoroTime / 60,
-                        ),
-                      ),
-                    ),
-                  )
-                : const SizedBox(),
+            // (cubit.stopwatchTimer != null && cubit.stopwatchTimer!.isActive) ||
+            //         (cubit.pomodoroTimer != null &&
+            //             cubit.pomodoroTimer!.isActive)
+            Positioned.fill(
+              child: Align(
+                alignment: Alignment.center,
+                child: SizedBox(
+                  width: width * 165,
+                  height: width * 165,
+                  child: CircularProgressIndicator(
+                    strokeWidth: width * 2,
+                    color: secondaryColor,
+                    value: stopWatch
+                        ? null
+                        : cubit.pomodoroDuration.inMinutes /
+                            cubit.pomodoroTime.toInt(),
+                  ),
+                ),
+              ),
+            ),
+            // : const SizedBox(),
             Positioned.fill(
               child: Align(
                 alignment: const Alignment(0, 1.1),
                 child: GestureDetector(
                   onTap: () {
-                    if (cubit.stopwatchTimer != null &&
-                        cubit.stopwatchTimer!.isActive) {
-                      cubit.stopwatchTimer?.cancel();
+                    if (stopWatch) {
+                      if (cubit.stopwatchTimer != null &&
+                          cubit.stopwatchTimer!.isActive) {
+                        cubit.stopStopWatch();
+                      } else {
+                        cubit.startStopWatch();
+                      }
                     } else {
-                      cubit.startStopWatch();
+                      if (cubit.pomodoroTimer != null &&
+                          cubit.pomodoroTimer!.isActive) {
+                        cubit.stopPomodoroTimer();
+                      } else {
+                        cubit.startPomodoroTimer();
+                      }
                     }
                   },
                   child: Container(
@@ -135,8 +149,10 @@ class PomodoroClock extends StatelessWidget {
                       ],
                     ),
                     child: Icon(
-                      cubit.stopwatchTimer != null &&
-                              cubit.stopwatchTimer!.isActive
+                      (cubit.stopwatchTimer != null &&
+                                  cubit.stopwatchTimer!.isActive) ||
+                              (cubit.pomodoroTimer != null &&
+                                  cubit.pomodoroTimer!.isActive)
                           ? Icons.pause
                           : Icons.play_arrow,
                       color: primaryColor,
@@ -146,7 +162,6 @@ class PomodoroClock extends StatelessWidget {
                 ),
               ),
             ),
-            
           ],
         );
       },

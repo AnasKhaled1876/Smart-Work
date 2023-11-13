@@ -40,8 +40,8 @@ class _PickPomodoroTimeState extends State<PickPomodoroTime> {
                 height: height * 20,
               ),
               TimeSlider(
-                  min: 15,
-                  max: 60,
+                  min: 10,
+                  max: 30,
                   title: "Long Break".i18n(),
                   onChanged: (value) {
                     cubit.changePomodoroTime(longBreak: value);
@@ -52,7 +52,7 @@ class _PickPomodoroTimeState extends State<PickPomodoroTime> {
               ),
               TimeSlider(
                 min: 5,
-                max: 60,
+                max: 20,
                 title: "Short Break".i18n(),
                 onChanged: (value) {
                   cubit.changePomodoroTime(shortBreak: value);
